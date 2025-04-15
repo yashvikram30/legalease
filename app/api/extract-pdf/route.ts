@@ -1,3 +1,7 @@
+// app/api/extract-pdf/route.ts
+
+export const runtime = 'nodejs'; 
+
 import { NextRequest, NextResponse } from 'next/server';
 import pdfParse from 'pdf-parse';
 
@@ -26,11 +30,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-export async function GET() {
-  return NextResponse.json(
-    { message: 'GET not supported, use POST.' },
-    { status: 405 }
-  );
 }
