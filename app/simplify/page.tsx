@@ -110,13 +110,33 @@ export default function SimplifyPage() {
       } else if (selectedFile.type === "application/pdf") {
         const text = await extractTextFromPDF(selectedFile);
         setOriginalContent(text);
+      } else if (
+        selectedFile.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+        selectedFile.type === "application/msword"
+      ) {
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+      
+        const response = await fetch("/api/extract-word", {
+          method: "POST",
+          body: formData,
+        });
+      
+        if (!response.ok) {
+          throw new Error("Failed to extract text from Word document");
+        }
+      
+        const data = await response.json();
+        setOriginalContent(data.text);
       } else {
         toast({
           title: "Unsupported format",
+          description: "This file format is not supported yet.",
           variant: "destructive",
         });
         setOriginalContent("");
       }
+      
       setProgress(50);
     } catch (error) {
       toast({ 
