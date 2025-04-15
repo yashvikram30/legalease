@@ -350,14 +350,7 @@ export default function HelpPage() {
                       </div>
                     </div>
                   </CardContent>
-                  <CardFooter className="flex justify-between">
-                    <Button variant="outline" size="sm">
-                      View Profile
-                    </Button>
-                    <Button className="bg-teal-600 hover:bg-teal-700" size="sm">
-                      Contact
-                    </Button>
-                  </CardFooter>
+                  
                 </Card>
               </motion.div>
             ))
