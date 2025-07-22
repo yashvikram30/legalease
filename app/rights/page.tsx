@@ -314,22 +314,25 @@ export default function RightsPage() {
           ))}
         </Tabs>
 
-        <div className="mt-8 bg-slate-50 rounded-2xl p-6">
-          <h2 className="text-xl font-semibold text-navy-900 mb-4">Understanding Your Rights</h2>
-          <p className="text-slate-700 mb-4">
+        <div className="mt-8 bg-slate-50 dark:bg-gray-900 rounded-2xl p-6">
+          <h2 className="text-xl font-semibold text-navy-900 dark:text-white mb-4">
+            Understanding Your Rights
+          </h2>
+          <p className="text-slate-700 dark:text-slate-300 mb-4">
             Knowing your legal rights is the first step toward accessing justice. The information provided here is
             simplified for better understanding but is based on actual Indian laws and legal provisions.
           </p>
-          <p className="text-slate-700 mb-4">
+          <p className="text-slate-700 dark:text-slate-300 mb-4">
             Remember that laws can change, and specific circumstances may affect how these rights apply to your
             situation. When facing a legal issue, it's always advisable to consult with a qualified legal professional.
           </p>
           <div className="flex justify-center mt-6">
-            <Button asChild className="bg-teal-600 hover:bg-teal-700">
+            <Button asChild className="bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600">
               <a href="/help">Find Legal Help</a>
             </Button>
           </div>
         </div>
+
       </div>
     </div>
   )
