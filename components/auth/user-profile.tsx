@@ -1,9 +1,8 @@
-// components/UserProfile.tsx
+'use client'
 
-import { User } from '@supabase/supabase-js'
+import { useSession, signOut } from 'next-auth/react'
 import { LogOut, UserIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -15,43 +14,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { getSupabaseBrowserClient } from '@/lib/supabase'
 
 export function UserProfile() {
-  const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(true)
+  const { data: session, status } = useSession()
   const router = useRouter()
-  const supabase = getSupabaseBrowserClient() // Importing the Supabase client here
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession()
-      setUser(session?.user || null)
-      setLoading(false)
-    }
-
-    fetchUser()
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user || null)
-    })
-
-    return () => {
-      subscription.unsubscribe()
-    }
-  }, [supabase.auth])
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut()
-    router.push('/')
+    await signOut({ callbackUrl: '/' }) // Redirect to home after sign-out
     router.refresh()
   }
 
-  if (loading) {
+  if (status === 'loading') {
     return (
       <Button variant="ghost" size="sm" disabled>
         <UserIcon className="h-4 w-4 mr-2" />
@@ -60,7 +33,7 @@ export function UserProfile() {
     )
   }
 
-  if (!user) {
+  if (!session || !session.user) {
     return (
       <Button asChild size="sm" className="bg-teal-600 hover:bg-teal-700 dark:bg-teal-700 dark:hover:bg-teal-800">
         <a href="/auth">Sign In</a>
@@ -68,17 +41,18 @@ export function UserProfile() {
     )
   }
 
-  const initials = user.email ? user.email.substring(0, 2).toUpperCase() : 'U'
+  const { email, image } = session.user
+  const initials = email ? email.substring(0, 2).toUpperCase() : 'U'
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="sm" className="flex items-center gap-2">
           <Avatar className="h-6 w-6">
-            <AvatarImage src="/placeholder.svg" alt={user.email || ''} />
+            <AvatarImage src={image || '/placeholder.svg'} alt={email || ''} />
             <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
-          <span className="text-sm hidden md:inline-block">{user.email}</span>
+          <span className="text-sm hidden md:inline-block">{email}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

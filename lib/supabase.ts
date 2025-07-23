@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js"
+/*import { createClient } from "@supabase/supabase-js"
 import type { Database } from "@/types/supabase"
 
 // Create a single supabase client for the browser
@@ -43,3 +43,4 @@ export const createServerClient = () => {
     },
   })
 }
+*/

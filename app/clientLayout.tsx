@@ -8,7 +8,8 @@ import { motion, AnimatePresence } from "framer-motion"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
-import { Toaster } from "@/components/ui/toaster"
+import {Toaster} from "react-hot-toast"
+import AuthProvider from '../context/AuthProvider';
 
 import "./globals.css"
 
@@ -21,6 +22,7 @@ export default function ClientLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <AuthProvider>
       <body className={`${inter.className} min-h-screen bg-background`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
           <div className="flex min-h-screen flex-col">
@@ -39,9 +41,11 @@ export default function ClientLayout({
             </main>
             <Footer />
           </div>
-          <Toaster />
+        
+          <Toaster/>
         </ThemeProvider>
       </body>
+      </AuthProvider>
     </html>
   )
 }
