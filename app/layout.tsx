@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import ClientLayout from "./clientLayout"
 import { Analytics } from "@vercel/analytics/next"
 
+
 export const metadata: Metadata = {
   title: "LegalEase - Simplifying Legal Access for All",
   description:
@@ -15,8 +16,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  return <ClientLayout>{children}<Analytics /></ClientLayout>
-}
+  return(
+  <ClientLayout>{children}<Analytics /></ClientLayout>
+)}
 
 
 import './globals.css'
