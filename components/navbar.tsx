@@ -5,6 +5,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
 import { Menu, X } from "lucide-react"
+import { useSession } from "next-auth/react"
 
 import { Button } from "@/components/ui/button"
 import { ModeToggle } from "@/components/mode-toggle"
@@ -14,9 +15,10 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
+  const {data: session} = useSession();
 
   const navItems = [
-    { name: "Home", href: "/" },
+    ...(!session?.user ? [{ name: "Home", href: "/" }] : []),
     { name: "AI Legal Chatbot", href: "/chat" },
     { name: "Case Tracker", href: "/dashboard" },
     { name: "Rights Visualizer", href: "/rights" },
