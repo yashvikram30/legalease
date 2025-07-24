@@ -1,38 +1,48 @@
 ---
-name: Bug Report
-about: Submit a detailed report of a bug or unexpected behavior
-title: "[Bug] <short description of the issue>"
-labels: bug
-assignees: ''
+name: "🐛 Bug Report"
+about: "Report a bug to help improve the project"
+title: "🐛 : "
+labels: ""
+assignees: ""
 
 ---
 
-## Description
-Please provide a clear and concise summary of the issue you are experiencing.
+### 🔍 Have You Searched Existing Issues?
 
-## Steps to Reproduce
-Outline the steps required to reproduce the issue:
+- [ ] I have searched the existing issues to avoid duplicates
 
-1. Navigate to '...'
+---
+
+### 🐞 Describe the Bug  
+What is causing the issue?
+
+---
+
+### ▶️ Steps to Reproduce  
+1. Go to '...'
 2. Click on '...'
-3. Observe '...'
+3. Scroll to '...'
+4. See error
 
-## Expected Behavior
-Describe what you expected to happen.
+---
 
-## Actual Behavior
-Describe what actually happened. Include any error messages, if applicable.
+### ✅ Expected Behavior  
+What should have to be done?
 
-## Screenshots (if applicable)
-Attach relevant screenshots to support your report.
+---
 
-## Environment Details
-Please provide the following information:
+### 🖼️ Screenshots (If applicable)  
+Add screenshots to help explain the issue.
 
-- Operating System: (e.g., Windows 11, macOS Ventura)
-- Browser: (e.g., Chrome 115, Firefox 118)
-- Application Version: (if applicable)
-- Device Type: (e.g., Desktop, Mobile)
+---
 
-## Additional Context
-Include any other context, links, or related issues that might help us understand the problem.
+### 📘 Additional Context  
+Any other details that might help.
+
+---
+
+### 🙌 Contributor Checklist
+
+- [ ] I agree to follow this project's Code of Conduct  
+- [ ] I am a GSSOC'25 contributor  
+- [ ] I want to work on this issue  
