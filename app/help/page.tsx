@@ -305,23 +305,38 @@ export default function HelpPage() {
                         <div className="flex items-start">
                           <MapPin className="h-4 w-4 text-slate-500 mt-0.5 mr-2" />
                           <div>
-                            <p className="text-sm text-slate-700">
+                            <a
+                              className="text-sm text-slate-700 hover:underline"
+                              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(provider.location + ', ' + provider.state)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
                               {provider.location}, {provider.state}
-                            </p>
+                            </a>
                           </div>
                         </div>
 
                         {provider.contact.phone && (
                           <div className="flex items-start">
                             <Phone className="h-4 w-4 text-slate-500 mt-0.5 mr-2" />
-                            <p className="text-sm text-slate-700">{provider.contact.phone}</p>
+                            <a
+                              className="text-sm text-slate-700 hover:underline"
+                              href={`tel:${provider.contact.phone.replace(/[^+\d]/g, '')}`}
+                            >
+                              {provider.contact.phone}
+                            </a>
                           </div>
                         )}
 
                         {provider.contact.email && (
                           <div className="flex items-start">
                             <Mail className="h-4 w-4 text-slate-500 mt-0.5 mr-2" />
-                            <p className="text-sm text-slate-700">{provider.contact.email}</p>
+                            <a
+                              className="text-sm text-slate-700 hover:underline"
+                              href={`mailto:${provider.contact.email}`}
+                            >
+                              {provider.contact.email}
+                            </a>
                           </div>
                         )}
                       </div>
