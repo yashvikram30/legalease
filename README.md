@@ -107,12 +107,7 @@ npm run build
 npm start
 ```
 ## 🤝 Contributing
-Contributions are welcome! If you'd like to contribute, please follow these steps :
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
-3. Make your changes and commit them with clear, concise messages.
-4. Push your branch to your fork.
-5. Open a Pull Request to the main branch of the original repository, describing your changes in detail.
+Contributions are welcome! If you'd like to contribute, please Check out our [Contributing Guidelines](contributing.md).
 
 
 
