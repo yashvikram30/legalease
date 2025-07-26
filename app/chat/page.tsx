@@ -34,6 +34,17 @@ export default function ChatPage() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const [selectedModel, setSelectedModel] = useState("llama3-8b-8192")
+  const [showprompts, setShowprompts] = useState(true)
+  const [location, setlocation] = useState("")
+
+
+  // Starter prompts
+  const starterPrompts = useMemo(() => [
+    "How is alimony calculated?",
+    "What are my tenant rights?",
+    "Explain copyright law basics",
+    "How does small claims court work?"
+  ], [])
 
   // Scroll to bottom when messages change
   useEffect(() => {
@@ -45,17 +56,18 @@ export default function ChatPage() {
     inputRef.current?.focus()
   }, [])
 
-  // Memoize handleSend to prevent unnecessary re-creations
-  const handleSend = useCallback(async (e?: React.FormEvent) => {
-    e?.preventDefault()
-    if (!input.trim()) return
+  // Memorize handleSend to prevent unnecessary re-creations
+  const handleSend = useCallback(async (e?: React.FormEvent, customInput?: string) => {
+  e?.preventDefault();
+  const messageContent = customInput || input.trim();
+  if (!messageContent) return;
 
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      content: input,
-      role: "user",
-      timestamp: new Date(),
-    }
+  const userMessage: Message = {
+    id: Date.now().toString(),
+    content: messageContent,
+    role: "user",
+    timestamp: new Date(),
+  };
 
     setMessages((prev) => [...prev, userMessage])
     setInput("")
@@ -100,10 +112,11 @@ export default function ChatPage() {
       )
     }
 
-    setIsLoading(false)
-  }, [input, messages, selectedModel])
+     setIsLoading(false)
+    }, [input, messages, selectedModel])
 
-  // Memoize model options to prevent unnecessary re-rendering
+
+  // Memorize model options to prevent unnecessary re-rendering
   const modelOptions = useMemo(() => [
     { value: "llama3-8b-8192", label: "LLaMA 3 8B (Fast)" },
     { value: "llama3-70b-8192", label: "LLaMA 3 70B (Powerful)" },
@@ -175,6 +188,49 @@ export default function ChatPage() {
         </div>
 
         <div className="border-t bg-white dark:bg-slate-900 dark:border-slate-700 p-4">
+         
+         {/* Prompt Toggle & Location Picker */}
+
+         <div className="max-w-3xl mx-auto mb-3 space-y-2">
+          
+         <div className="flex items-center justify-between"> 
+          <button 
+              onClick={() => setShowprompts(!showprompts)}
+              className="text-xs text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 mb-2"
+              >
+              {showprompts ? '▼ Hide prompts' : '▲ Show prompts'}
+          </button>
+          
+          <input
+           type="text"
+           value={location}
+           onChange={(e) => setlocation(e.target.value)}
+           placeholder="Add location (e.g., California, UK)"
+           className="text-xs p-1.5 border border-gray-500 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0 rounded-md bg-transparent w-1/3"
+          />
+          </div>
+
+        {showprompts && (
+         <div className="grid grid-cols-2 gap-2">
+          {starterPrompts.map((prompt) => (
+           <button
+             key={prompt}
+             onClick={() => {
+             const finalInput = location ? `In ${location} , ${prompt} ` : prompt;
+             setInput(finalInput);
+             setShowprompts(false);
+             handleSend(undefined, finalInput);
+          }}
+          className="text-left p-2 text-sm rounded border hover:bg-slate-50 dark:hover:bg-slate-800 truncate"
+          >
+          {prompt}
+        </button>
+        ))}
+        </div>
+        )}
+
+         </div>
+
           <div className="max-w-3xl mx-auto mb-2">
             <select
               value={selectedModel}
