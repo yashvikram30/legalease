@@ -48,18 +48,18 @@ export function Navbar() {
           : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
-              <span className="text-2xl font-bold text-navy-900 dark:text-white">
+              <span className="text-xl sm:text-2xl font-bold text-navy-900 dark:text-white">
                 Legal<span className="text-teal-600 dark:text-teal-400">Ease</span>
               </span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1">
+          <nav className="hidden lg:flex items-center space-x-2">
             {navItems.map((item) => {
               const isActive = pathname === item.href
 
@@ -67,7 +67,7 @@ export function Navbar() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`relative px-3 py-2 text-sm font-medium transition-colors ${
+                  className={`relative px-3 py-2 text-sm font-medium transition-colors whitespace-nowrap ${
                     isActive
                       ? "text-teal-600 dark:text-teal-400"
                       : "text-slate-700 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400"
@@ -91,7 +91,7 @@ export function Navbar() {
             <UserProfile />
 
             {/* Mobile Menu Button */}
-            <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
+            <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setIsOpen(!isOpen)}>
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               <span className="sr-only">Toggle menu</span>
             </Button>
@@ -106,9 +106,9 @@ export function Navbar() {
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
           transition={{ duration: 0.2 }}
-          className="md:hidden border-t dark:border-slate-700"
+          className="lg:hidden border-t dark:border-slate-700"
         >
-          <div className="container mx-auto px-4 py-3 bg-white dark:bg-slate-900">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 bg-white dark:bg-slate-900">
             <nav className="flex flex-col space-y-3">
               {navItems.map((item) => {
                 const isActive = pathname === item.href
