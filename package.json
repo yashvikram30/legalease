@@ -2,6 +2,23 @@
   "name": "legal-ease",
   "version": "0.1.0",
   "private": true,
+  "description": "LegalEase is an AI-powered platform designed to demystify the Indian justice system, making legal knowledge accessible and understandable for everyone. By leveraging advanced AI tools, it provides plain language explanations, personalized guidance, and real-time legal assistance, empowering citizens to understand and exercise their rights.\r ## ✨ Core Features\r LegalEase offers a suite of powerful tools to simplify your legal journey:\r ### 1. AI Legal Chatbot : \r Get instant, AI-powered answers to your legal questions. The chatbot can be configured with different LLM models (e.g., LLaMA 3 8B Fast, LLaMA 3 70B Powerful) to suit varying needs for speed and depth.\r <img width=\"1000\" height=\"500\" alt=\"Screenshot 2025-07-23 005313\" src=\"https://github.com/user-attachments/assets/9e7952d4-a2d9-44b2-838f-b387e34cb81f\" />\r ### 2. Case Tracker :\r Track and manage your legal cases in real-time. Stay updated on statuses, next hearing dates, and key developments. Features include search, filter by status, and sorting options.\r <img width=\"1000\" height=\"500\" alt=\"Screenshot 2025-07-23 005334\" src=\"https://github.com/user-attachments/assets/2765e469-05bb-4af0-90d0-f10c108f7f81\" />\r ### 3. Legal Rights Visualizer :\r Explore and understand your legal rights in simple, easy-to-understand language through interactive visualizations. Browse categories like Arrest Rights, Property Rights, Consumer Rights, Employment Rights, and Family Law Rights.\r <img width=\"1000\" height=\"500\" alt=\"Screenshot 2025-07-23 005350\" src=\"https://github.com/user-attachments/assets/bcf66795-0467-401f-ade1-52fef0361e87\" />\r ### 4. Document Simplifier :\r Upload complex legal documents (PDF, Word, Text up to 10MB) and receive simplified, plain-language explanations of their content.\r <img width=\"1000\" height=\"500\" alt=\"Screenshot 2025-07-23 005406\" src=\"https://github.com/user-attachments/assets/d4b18a2e-e635-48fc-9cb8-a9deae2affce\" />\r ### 5. Find Legal Help :\r Connect with legal aid providers, lawyers, and clinics across India. Search by name, specialization, or location, and filter by state and type of service.\r <img width=\"1000\" height=\"500\" alt=\"Screenshot 2025-07-23 005420\" src=\"https://github.com/user-attachments/assets/76e2937c-6103-43d5-a23d-0ccd3903c125\" />",
+  "homepage": "https://github.com/MishtiGarg250/legalease#readme",
+  "bugs": {
+    "url": "https://github.com/MishtiGarg250/legalease/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MishtiGarg250/legalease.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -56,11 +73,13 @@
     "express-session": "^1.17.3",
     "framer-motion": "latest",
     "input-otp": "1.4.1",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.454.0",
     "mongoose": "^7.5.0",
     "next": "^15.2.4",
     "next-auth": "^4.24.11",
     "next-themes": "latest",
+    "nodemailer": "^6.10.1",
     "openai": "^4.93.0",
     "pdf-parse": "^1.1.1",
     "pdfjs-dist": "^2.16.105",
@@ -83,7 +102,9 @@
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.21",
     "@types/express-session": "^1.17.7",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^22.14.1",
+    "@types/nodemailer": "^6.4.17",
     "@types/pdfjs-dist": "^2.10.377",
     "@types/react": "^19",
     "@types/react-dom": "^19",
