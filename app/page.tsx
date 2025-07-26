@@ -1,35 +1,46 @@
-"use client"
+"use client";
 
-import { ArrowRight, Check, MessageSquare, Scale, Search } from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
-import { motion } from "framer-motion"
+import { ArrowRight, Check, MessageSquare, Scale, Search } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { TestimonialCard } from "@/components/testimonial-card"
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { TestimonialCard } from "@/components/testimonial-card";
 
 export default function LandingPage() {
   const features = [
     {
-      icon: <MessageSquare className="h-10 w-10 text-blue-600" />,
+      icon: (
+        <MessageSquare className="h-10 w-10 text-blue-600 dark:text-blue-400" />
+      ),
       title: "AI Legal Chatbot",
-      description: "Get instant answers to your legal questions from our AI-powered chatbot.",
+      description:
+        "Get instant answers to your legal questions from our AI-powered chatbot.",
       link: "/chat",
     },
     {
-      icon: <Search className="h-10 w-10 text-blue-600" />,
+      icon: <Search className="h-10 w-10 text-blue-600 dark:text-blue-400" />,
       title: "Case Tracker",
-      description: "Track your legal cases in real-time with updates on status and next steps.",
+      description:
+        "Track your legal cases in real-time with updates on status and next steps.",
       link: "/dashboard",
     },
     {
-      icon: <Scale className="h-10 w-10 text-blue-600" />,
+      icon: <Scale className="h-10 w-10 text-blue-600 dark:text-blue-400" />,
       title: "Legal Rights Visualizer",
-      description: "Understand your legal rights in simple language with interactive visualizations.",
+      description:
+        "Understand your legal rights in simple language with interactive visualizations.",
       link: "/rights",
     },
-  ]
+  ];
 
   const testimonials = [
     {
@@ -53,12 +64,12 @@ export default function LandingPage() {
         "As a law student, I find LegalEase incredibly useful for research. The platform simplifies complex legal concepts and makes them accessible to everyone.",
       avatar: "/placeholder.svg?height=80&width=80",
     },
-  ]
+  ];
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white text-navy-900 dark:bg-gray-900 dark:text-white">
       {/* Hero Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-slate-50 to-white">
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-slate-50 to-white dark:from-gray-900 dark:to-gray-800">
         <div className="container px-4 md:px-6">
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
             <motion.div
@@ -68,16 +79,21 @@ export default function LandingPage() {
               transition={{ duration: 0.5 }}
             >
               <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-navy-900">
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
                   Simplifying Legal Access for All Indians
                 </h1>
-                <p className="max-w-[600px] text-slate-700 md:text-xl">
-                  LegalEase makes the justice system accessible through AI-powered tools, plain language explanations,
-                  and personalized guidance.
+                <p className="max-w-[600px] text-slate-700 dark:text-slate-300 md:text-xl">
+                  LegalEase makes the justice system accessible through
+                  AI-powered tools, plain language explanations, and
+                  personalized guidance.
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                <Button asChild size="lg" className="bg-teal-600 hover:bg-teal-700">
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-teal-600 hover:bg-teal-700 text-white"
+                >
                   <Link href="/chat">
                     Get Started Free
                     <ArrowRight className="ml-2 h-4 w-4" />
@@ -107,7 +123,7 @@ export default function LandingPage() {
       </section>
 
       {/* Mission Statement */}
-      <section className="w-full py-12 md:py-16 bg-white">
+      <section className="w-full py-12 md:py-16 bg-white dark:bg-gray-900">
         <div className="container px-4 md:px-6">
           <motion.div
             className="mx-auto text-center space-y-4 max-w-[800px]"
@@ -116,23 +132,28 @@ export default function LandingPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl text-navy-900">Our Mission</h2>
-            <p className="text-slate-700 md:text-xl">
-              We believe that legal knowledge should be accessible to everyone, not just those who can afford expensive
-              lawyers. LegalEase uses AI and plain language to demystify the legal system, empowering citizens to
-              understand and exercise their rights.
+            <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl">
+              Our Mission
+            </h2>
+            <p className="text-slate-700 dark:text-slate-300 md:text-xl">
+              We believe that legal knowledge should be accessible to everyone,
+              not just those who can afford expensive lawyers. LegalEase uses AI
+              and plain language to demystify the legal system, empowering
+              citizens to understand and exercise their rights.
             </p>
           </motion.div>
         </div>
       </section>
 
       {/* Features */}
-      <section className="w-full py-12 md:py-24 bg-slate-50">
+      <section className="w-full py-12 md:py-24 bg-slate-50 dark:bg-gray-800">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-navy-900">Core Features</h2>
-              <p className="max-w-[700px] text-slate-700 md:text-xl">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
+                Core Features
+              </h2>
+              <p className="max-w-[700px] text-slate-700 dark:text-slate-300 md:text-xl">
                 Powerful tools designed to simplify your legal journey
               </p>
             </div>
@@ -146,11 +167,15 @@ export default function LandingPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <Card className="h-full transition-all hover:shadow-lg">
+                <Card className="h-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 transition-all hover:shadow-lg">
                   <CardHeader>
-                    <div className="p-2 rounded-full bg-blue-50 w-fit mb-4">{feature.icon}</div>
+                    <div className="p-2 rounded-full bg-blue-50 dark:bg-blue-900 w-fit mb-4">
+                      {feature.icon}
+                    </div>
                     <CardTitle className="text-xl">{feature.title}</CardTitle>
-                    <CardDescription className="text-slate-700">{feature.description}</CardDescription>
+                    <CardDescription className="text-slate-700 dark:text-slate-300">
+                      {feature.description}
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <Button asChild variant="ghost" className="group">
@@ -168,13 +193,16 @@ export default function LandingPage() {
       </section>
 
       {/* Testimonials */}
-      <section className="w-full py-12 md:py-24 bg-white">
+      <section className="w-full py-12 md:py-24 bg-white dark:bg-gray-900">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-navy-900">What Our Users Say</h2>
-              <p className="max-w-[700px] text-slate-700 md:text-xl">
-                Real stories from people who have used LegalEase to navigate their legal challenges
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
+                What Our Users Say
+              </h2>
+              <p className="max-w-[700px] text-slate-700 dark:text-slate-300 md:text-xl">
+                Real stories from people who have used LegalEase to navigate
+                their legal challenges
               </p>
             </div>
           </div>
@@ -195,7 +223,7 @@ export default function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="w-full py-12 md:py-24 bg-gradient-to-b from-slate-50 to-white">
+      <section className="w-full py-12 md:py-24 bg-gradient-to-b from-slate-50 to-white dark:from-gray-900 dark:to-gray-800">
         <div className="container px-4 md:px-6">
           <motion.div
             className="mx-auto flex flex-col items-center justify-center space-y-4 text-center max-w-3xl"
@@ -205,16 +233,20 @@ export default function LandingPage() {
             transition={{ duration: 0.5 }}
           >
             <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-navy-900">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
                 Ready to Simplify Your Legal Journey?
               </h2>
-              <p className="max-w-[700px] text-slate-700 md:text-xl">
-                Join thousands of Indians who are using LegalEase to understand their rights and navigate the legal
-                system with confidence.
+              <p className="max-w-[700px] text-slate-700 dark:text-slate-300 md:text-xl">
+                Join thousands of Indians who are using LegalEase to understand
+                their rights and navigate the legal system with confidence.
               </p>
             </div>
             <div className="flex flex-col gap-2 min-[400px]:flex-row pt-4">
-              <Button asChild size="lg" className="bg-teal-600 hover:bg-teal-700">
+              <Button
+                asChild
+                size="lg"
+                className="bg-teal-600 hover:bg-teal-700 text-white"
+              >
                 <Link href="/chat">
                   Get Started Free
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -227,20 +259,26 @@ export default function LandingPage() {
             <div className="flex items-center justify-center space-x-4 pt-4">
               <div className="flex items-center space-x-1">
                 <Check className="h-4 w-4 text-teal-600" />
-                <span className="text-sm text-slate-700">No credit card required</span>
+                <span className="text-sm text-slate-700 dark:text-slate-300">
+                  No credit card required
+                </span>
               </div>
               <div className="flex items-center space-x-1">
                 <Check className="h-4 w-4 text-teal-600" />
-                <span className="text-sm text-slate-700">Free basic access</span>
+                <span className="text-sm text-slate-700 dark:text-slate-300">
+                  Free basic access
+                </span>
               </div>
               <div className="flex items-center space-x-1">
                 <Check className="h-4 w-4 text-teal-600" />
-                <span className="text-sm text-slate-700">Cancel anytime</span>
+                <span className="text-sm text-slate-700 dark:text-slate-300">
+                  Cancel anytime
+                </span>
               </div>
             </div>
           </motion.div>
         </div>
       </section>
     </div>
-  )
+  );
 }

@@ -1,40 +1,53 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { MapPin, Phone, Mail, Star, Filter, Search } from "lucide-react"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { MapPin, Phone, Mail, Star, Filter, Search } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Skeleton } from "@/components/ui/skeleton"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 type LegalHelp = {
-  id: string
-  name: string
-  type: "NGO" | "Lawyer" | "Clinic" | "Government"
-  specialization: string[]
-  location: string
-  state: string
-  languages: string[]
-  rating: number
+  id: string;
+  name: string;
+  type: "NGO" | "Lawyer" | "Clinic" | "Government";
+  specialization: string[];
+  location: string;
+  state: string;
+  languages: string[];
+  rating: number;
   contact: {
-    phone?: string
-    email?: string
-    website?: string
-  }
-  availability: string
-  image?: string
-}
+    phone?: string;
+    email?: string;
+    website?: string;
+  };
+  availability: string;
+  image?: string;
+};
 
 export default function HelpPage() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [stateFilter, setStateFilter] = useState("all")
-  const [typeFilter, setTypeFilter] = useState("all")
-  const [isLoading, setIsLoading] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("");
+  const [stateFilter, setStateFilter] = useState("all");
+  const [typeFilter, setTypeFilter] = useState("all");
+  const [isLoading, setIsLoading] = useState(false);
 
   // Mock data for legal help providers
   const legalHelpProviders: LegalHelp[] = [
@@ -75,7 +88,11 @@ export default function HelpPage() {
       id: "3",
       name: "Community Legal Clinic",
       type: "Clinic",
-      specialization: ["Property Disputes", "Consumer Rights", "Employment Law"],
+      specialization: [
+        "Property Disputes",
+        "Consumer Rights",
+        "Employment Law",
+      ],
       location: "Bangalore",
       state: "Karnataka",
       languages: ["English", "Kannada", "Tamil"],
@@ -125,7 +142,11 @@ export default function HelpPage() {
       id: "6",
       name: "Women's Rights Initiative",
       type: "NGO",
-      specialization: ["Domestic Violence", "Sexual Harassment", "Gender Discrimination"],
+      specialization: [
+        "Domestic Violence",
+        "Sexual Harassment",
+        "Gender Discrimination",
+      ],
       location: "Hyderabad",
       state: "Telangana",
       languages: ["Telugu", "English", "Hindi"],
@@ -138,29 +159,34 @@ export default function HelpPage() {
       availability: "24/7 Helpline",
       image: "/placeholder.svg?height=100&width=100",
     },
-  ]
+  ];
 
   // Get unique states for filter
-  const states = Array.from(new Set(legalHelpProviders.map((provider) => provider.state)))
+  const states = Array.from(
+    new Set(legalHelpProviders.map((provider) => provider.state))
+  );
 
   // Filter providers based on search and filters
   const filteredProviders = legalHelpProviders.filter((provider) => {
     const matchesSearch =
       searchQuery === "" ||
       provider.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      provider.specialization.some((s) => s.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      provider.location.toLowerCase().includes(searchQuery.toLowerCase())
+      provider.specialization.some((s) =>
+        s.toLowerCase().includes(searchQuery.toLowerCase())
+      ) ||
+      provider.location.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesState = stateFilter === "all" || provider.state === stateFilter
-    const matchesType = typeFilter === "all" || provider.type === typeFilter
+    const matchesState =
+      stateFilter === "all" || provider.state === stateFilter;
+    const matchesType = typeFilter === "all" || provider.type === typeFilter;
 
-    return matchesSearch && matchesState && matchesType
-  })
+    return matchesSearch && matchesState && matchesType;
+  });
 
   // Function to render star rating
   const renderRating = (rating: number) => {
-    const fullStars = Math.floor(rating)
-    const hasHalfStar = rating % 1 >= 0.5
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
 
     return (
       <div className="flex items-center">
@@ -171,31 +197,35 @@ export default function HelpPage() {
               i < fullStars
                 ? "text-yellow-400 fill-yellow-400"
                 : i === fullStars && hasHalfStar
-                  ? "text-yellow-400 fill-yellow-400"
-                  : "text-slate-300"
+                ? "text-yellow-400 fill-yellow-400"
+                : "text-slate-300"
             }`}
           />
         ))}
         <span className="ml-1 text-sm text-slate-600">{rating.toFixed(1)}</span>
       </div>
-    )
-  }
+    );
+  };
 
   // Handle search and filter changes
   const handleSearch = () => {
-    setIsLoading(true)
+    setIsLoading(true);
     // Simulate API call delay
     setTimeout(() => {
-      setIsLoading(false)
-    }, 500)
-  }
+      setIsLoading(false);
+    }, 500);
+  };
 
   return (
     <div className="container mx-auto p-4 md:p-6">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-navy-900">Find Legal Help</h1>
-          <p className="text-slate-600 mt-2">Connect with legal aid providers, lawyers, and clinics across India</p>
+          <h1 className="text-3xl font-bold text-navy-900 dark:text-slate-300">
+            Find Legal Help
+          </h1>
+          <p className="text-slate-600 mt-2">
+            Connect with legal aid providers, lawyers, and clinics across India
+          </p>
         </div>
 
         {/* Search and Filters */}
@@ -285,11 +315,18 @@ export default function HelpPage() {
                   <CardHeader className="pb-2">
                     <div className="flex items-center gap-4">
                       <Avatar className="h-16 w-16">
-                        <AvatarImage src={provider.image || "/placeholder.svg"} alt={provider.name} />
-                        <AvatarFallback>{provider.name.charAt(0)}</AvatarFallback>
+                        <AvatarImage
+                          src={provider.image || "/placeholder.svg"}
+                          alt={provider.name}
+                        />
+                        <AvatarFallback>
+                          {provider.name.charAt(0)}
+                        </AvatarFallback>
                       </Avatar>
                       <div>
-                        <CardTitle className="text-xl">{provider.name}</CardTitle>
+                        <CardTitle className="text-xl">
+                          {provider.name}
+                        </CardTitle>
                         <CardDescription>
                           <Badge variant="outline" className="mr-1">
                             {provider.type}
@@ -314,24 +351,34 @@ export default function HelpPage() {
                         {provider.contact.phone && (
                           <div className="flex items-start">
                             <Phone className="h-4 w-4 text-slate-500 mt-0.5 mr-2" />
-                            <p className="text-sm text-slate-700">{provider.contact.phone}</p>
+                            <p className="text-sm text-slate-700">
+                              {provider.contact.phone}
+                            </p>
                           </div>
                         )}
 
                         {provider.contact.email && (
                           <div className="flex items-start">
                             <Mail className="h-4 w-4 text-slate-500 mt-0.5 mr-2" />
-                            <p className="text-sm text-slate-700">{provider.contact.email}</p>
+                            <p className="text-sm text-slate-700">
+                              {provider.contact.email}
+                            </p>
                           </div>
                         )}
                       </div>
 
                       <div className="space-y-2">
                         <div>
-                          <p className="text-sm font-medium text-slate-700">Specialization</p>
+                          <p className="text-sm font-medium text-slate-700">
+                            Specialization
+                          </p>
                           <div className="flex flex-wrap gap-1 mt-1">
                             {provider.specialization.map((spec, i) => (
-                              <Badge key={i} variant="secondary" className="text-xs">
+                              <Badge
+                                key={i}
+                                variant="secondary"
+                                className="text-xs"
+                              >
                                 {spec}
                               </Badge>
                             ))}
@@ -339,42 +386,58 @@ export default function HelpPage() {
                         </div>
 
                         <div>
-                          <p className="text-sm font-medium text-slate-700">Languages</p>
-                          <p className="text-sm text-slate-600">{provider.languages.join(", ")}</p>
+                          <p className="text-sm font-medium text-slate-700">
+                            Languages
+                          </p>
+                          <p className="text-sm text-slate-600">
+                            {provider.languages.join(", ")}
+                          </p>
                         </div>
 
                         <div>
-                          <p className="text-sm font-medium text-slate-700">Availability</p>
-                          <p className="text-sm text-slate-600">{provider.availability}</p>
+                          <p className="text-sm font-medium text-slate-700">
+                            Availability
+                          </p>
+                          <p className="text-sm text-slate-600">
+                            {provider.availability}
+                          </p>
                         </div>
                       </div>
                     </div>
                   </CardContent>
-                  
                 </Card>
               </motion.div>
             ))
           ) : (
             <div className="text-center py-12">
-              <p className="text-slate-500">No legal help providers found matching your criteria.</p>
-              <p className="text-slate-500 mt-2">Try adjusting your search or filters.</p>
+              <p className="text-slate-500">
+                No legal help providers found matching your criteria.
+              </p>
+              <p className="text-slate-500 mt-2">
+                Try adjusting your search or filters.
+              </p>
             </div>
           )}
         </div>
 
         {/* Additional Information */}
         <div className="mt-12 bg-slate-50 rounded-2xl p-6">
-          <h2 className="text-xl font-semibold text-navy-900 mb-4">Need Immediate Legal Assistance?</h2>
+          <h2 className="text-xl font-semibold text-navy-900 mb-4">
+            Need Immediate Legal Assistance?
+          </h2>
           <p className="text-slate-700 mb-4">
-            If you're facing an emergency legal situation, you can contact the National Legal Services Authority (NALSA)
-            helpline at <span className="font-medium">1516</span> for free legal aid and advice.
+            If you're facing an emergency legal situation, you can contact the
+            National Legal Services Authority (NALSA) helpline at{" "}
+            <span className="font-medium">1516</span> for free legal aid and
+            advice.
           </p>
           <p className="text-slate-700">
-            For women in distress, the Women Helpline number is <span className="font-medium">1091</span> or{" "}
+            For women in distress, the Women Helpline number is{" "}
+            <span className="font-medium">1091</span> or{" "}
             <span className="font-medium">181</span>.
           </p>
         </div>
       </div>
     </div>
-  )
+  );
 }
