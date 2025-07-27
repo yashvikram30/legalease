@@ -46,11 +46,6 @@ export default function ChatPage() {
     "How does small claims court work?"
   ], [])
 
-  // Scroll to bottom when messages change
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [messages])
-
   // Focus input on load
   useEffect(() => {
     inputRef.current?.focus()
