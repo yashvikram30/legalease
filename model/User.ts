@@ -5,6 +5,8 @@ export interface User extends Document {
     username: string;
     email: string;
     password: string;
+    otp:string;
+    otpExpiry: Date | null;
 }
 
 const UserSchema:  Schema<User> = new mongoose.Schema({
@@ -24,6 +26,13 @@ const UserSchema:  Schema<User> = new mongoose.Schema({
     type: String,
     required: [true, 'Password is required'],
   },
+  otp:{
+    type:String,
+  },
+  otpExpiry:{
+    type:Date,
+  },
+
 });
 
 const UserModel =

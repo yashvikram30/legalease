@@ -58,29 +58,38 @@ export function AuthForm() {
   }
 
   const handleSignUp = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError(null)
-    setIsLoading(true)
+  e.preventDefault()
+  setError(null)
+  setIsLoading(true)
 
-    try {
-      const response = await axios.post<ApiResponse>('/api/sign-up', {
-        username,
-        email,
-        password,
-      })
-      toast(response.data.message)
-      console.log(response.data.message)
+  try {
+    const response = await axios.post<ApiResponse>('/api/sign-up', {
+      username,
+      email,
+      password,
+    })
+    toast(response.data.message)
 
-      // Redirect directly to dashboard instead of verify page
+    // 🔐 Sign the user in immediately after sign-up
+    const loginResult = await signIn('credentials', {
+      redirect: false,
+      identifier: email, // or username if you're using username-based login
+      password,
+    })
+
+    if (loginResult?.error) {
+      toast('Account created, but sign-in failed. Please try manually.', { icon: '❌' })
+    } else if (loginResult?.url) {
       router.replace("/dashboard")
-    } catch (err) {
-      const axiosError = err as AxiosError<ApiResponse>
-       const errorMessage = axiosError.response?.data.message;
-      toast(errorMessage ?? 'There was a problem with your sign-up. Please try again.');
-    } finally {
-      setIsLoading(false)
     }
+  } catch (err) {
+    const axiosError = err as AxiosError<ApiResponse>
+    const errorMessage = axiosError.response?.data.message;
+    toast(errorMessage ?? 'There was a problem with your sign-up. Please try again.');
+  } finally {
+    setIsLoading(false)
   }
+}
 
   return (
     <Card className="w-full max-w-md mx-auto">
@@ -130,7 +139,22 @@ export function AuthForm() {
                 </div>
               </div>
 
-              {error && <Alert variant="destructive"><AlertDescription>{error}</AlertDescription></Alert>}
+              {error && (
+  <Alert variant="destructive">
+    <AlertDescription>{error}</AlertDescription>
+  </Alert>
+)}
+
+<div className="text-right">
+  <button
+    type="button"
+    className="text-xs text-teal-600 hover:underline"
+    onClick={() => router.push('/auth/forgotPassword')}
+  >
+    Forgot password?
+  </button>
+</div>
+
 
               <Button
                 type="submit"
