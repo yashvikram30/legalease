@@ -172,11 +172,11 @@ export default function HelpPage() {
                 ? "text-yellow-400 fill-yellow-400"
                 : i === fullStars && hasHalfStar
                   ? "text-yellow-400 fill-yellow-400"
-                  : "text-slate-300"
+                  : "text-slate-300 dark:text-slate-600"
             }`}
           />
         ))}
-        <span className="ml-1 text-sm text-slate-600">{rating.toFixed(1)}</span>
+        <span className="ml-1 text-sm text-slate-600 dark:text-slate-400">{rating.toFixed(1)}</span>
       </div>
     )
   }
@@ -194,15 +194,15 @@ export default function HelpPage() {
     <div className="container mx-auto p-4 md:p-6">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-navy-900">Find Legal Help</h1>
-          <p className="text-slate-600 mt-2">Connect with legal aid providers, lawyers, and clinics across India</p>
+          <h1 className="text-3xl font-bold text-navy-900 dark:text-white">Find Legal Help</h1>
+          <p className="text-slate-600 dark:text-slate-400 mt-2">Connect with legal aid providers, lawyers, and clinics across India</p>
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm mb-8">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm mb-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500 dark:text-slate-400" />
               <Input
                 placeholder="Search by name, specialization, or location..."
                 className="pl-8"
@@ -213,7 +213,7 @@ export default function HelpPage() {
             </div>
 
             <div className="flex items-center space-x-2">
-              <Filter className="h-4 w-4 text-slate-500" />
+              <Filter className="h-4 w-4 text-slate-500 dark:text-slate-400" />
               <Select value={stateFilter} onValueChange={setStateFilter}>
                 <SelectTrigger>
                   <SelectValue placeholder="Filter by state" />
@@ -230,7 +230,7 @@ export default function HelpPage() {
             </div>
 
             <div className="flex items-center space-x-2">
-              <Filter className="h-4 w-4 text-slate-500" />
+              <Filter className="h-4 w-4 text-slate-500 dark:text-slate-400" />
               <Select value={typeFilter} onValueChange={setTypeFilter}>
                 <SelectTrigger>
                   <SelectValue placeholder="Filter by type" />
@@ -289,8 +289,8 @@ export default function HelpPage() {
                         <AvatarFallback>{provider.name.charAt(0)}</AvatarFallback>
                       </Avatar>
                       <div>
-                        <CardTitle className="text-xl">{provider.name}</CardTitle>
-                        <CardDescription>
+                        <CardTitle className="text-xl dark:text-white">{provider.name}</CardTitle>
+                        <CardDescription className="dark:text-slate-400">
                           <Badge variant="outline" className="mr-1">
                             {provider.type}
                           </Badge>
@@ -303,9 +303,9 @@ export default function HelpPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <div className="flex items-start">
-                          <MapPin className="h-4 w-4 text-slate-500 mt-0.5 mr-2" />
+                          <MapPin className="h-4 w-4 text-slate-500 dark:text-slate-400 mt-0.5 mr-2" />
                           <div>
-                            <p className="text-sm text-slate-700">
+                            <p className="text-sm text-slate-700 dark:text-slate-300">
                               {provider.location}, {provider.state}
                             </p>
                           </div>
@@ -313,22 +313,22 @@ export default function HelpPage() {
 
                         {provider.contact.phone && (
                           <div className="flex items-start">
-                            <Phone className="h-4 w-4 text-slate-500 mt-0.5 mr-2" />
-                            <p className="text-sm text-slate-700">{provider.contact.phone}</p>
+                            <Phone className="h-4 w-4 text-slate-500 dark:text-slate-400 mt-0.5 mr-2" />
+                            <p className="text-sm text-slate-700 dark:text-slate-300">{provider.contact.phone}</p>
                           </div>
                         )}
 
                         {provider.contact.email && (
                           <div className="flex items-start">
-                            <Mail className="h-4 w-4 text-slate-500 mt-0.5 mr-2" />
-                            <p className="text-sm text-slate-700">{provider.contact.email}</p>
+                            <Mail className="h-4 w-4 text-slate-500 dark:text-slate-400 mt-0.5 mr-2" />
+                            <p className="text-sm text-slate-700 dark:text-slate-300">{provider.contact.email}</p>
                           </div>
                         )}
                       </div>
 
                       <div className="space-y-2">
                         <div>
-                          <p className="text-sm font-medium text-slate-700">Specialization</p>
+                          <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Specialization</p>
                           <div className="flex flex-wrap gap-1 mt-1">
                             {provider.specialization.map((spec, i) => (
                               <Badge key={i} variant="secondary" className="text-xs">
@@ -339,13 +339,13 @@ export default function HelpPage() {
                         </div>
 
                         <div>
-                          <p className="text-sm font-medium text-slate-700">Languages</p>
-                          <p className="text-sm text-slate-600">{provider.languages.join(", ")}</p>
+                          <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Languages</p>
+                          <p className="text-sm text-slate-600 dark:text-slate-400">{provider.languages.join(", ")}</p>
                         </div>
 
                         <div>
-                          <p className="text-sm font-medium text-slate-700">Availability</p>
-                          <p className="text-sm text-slate-600">{provider.availability}</p>
+                          <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Availability</p>
+                          <p className="text-sm text-slate-600 dark:text-slate-400">{provider.availability}</p>
                         </div>
                       </div>
                     </div>
@@ -356,22 +356,22 @@ export default function HelpPage() {
             ))
           ) : (
             <div className="text-center py-12">
-              <p className="text-slate-500">No legal help providers found matching your criteria.</p>
-              <p className="text-slate-500 mt-2">Try adjusting your search or filters.</p>
+              <p className="text-slate-500 dark:text-slate-400">No legal help providers found matching your criteria.</p>
+              <p className="text-slate-500 dark:text-slate-400 mt-2">Try adjusting your search or filters.</p>
             </div>
           )}
         </div>
 
         {/* Additional Information */}
-        <div className="mt-12 bg-slate-50 rounded-2xl p-6">
-          <h2 className="text-xl font-semibold text-navy-900 mb-4">Need Immediate Legal Assistance?</h2>
-          <p className="text-slate-700 mb-4">
+        <div className="mt-12 bg-slate-50 dark:bg-slate-800 rounded-2xl p-6">
+          <h2 className="text-xl font-semibold text-navy-900 dark:text-white mb-4">Need Immediate Legal Assistance?</h2>
+          <p className="text-slate-700 dark:text-slate-300 mb-4">
             If you're facing an emergency legal situation, you can contact the National Legal Services Authority (NALSA)
-            helpline at <span className="font-medium">1516</span> for free legal aid and advice.
+            helpline at <span className="font-medium text-slate-900 dark:text-white">1516</span> for free legal aid and advice.
           </p>
-          <p className="text-slate-700">
-            For women in distress, the Women Helpline number is <span className="font-medium">1091</span> or{" "}
-            <span className="font-medium">181</span>.
+          <p className="text-slate-700 dark:text-slate-300">
+            For women in distress, the Women Helpline number is <span className="font-medium text-slate-900 dark:text-white">1091</span> or{" "}
+            <span className="font-medium text-slate-900 dark:text-white">181</span>.
           </p>
         </div>
       </div>
