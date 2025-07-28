@@ -245,8 +245,8 @@ export default function RightsPage() {
     <div className="container mx-auto p-4 md:p-6">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-navy-900">Legal Rights Visualizer</h1>
-          <p className="text-slate-600 mt-2">Explore your legal rights in simple, easy-to-understand language</p>
+          <h1 className="text-3xl font-bold text-navy-900 dark:text-white">Legal Rights Visualizer</h1>
+          <p className="text-slate-600 dark:text-slate-400 mt-2">Explore your legal rights in simple, easy-to-understand language</p>
         </div>
 
         <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="w-full">
@@ -268,15 +268,15 @@ export default function RightsPage() {
               >
                 <Card>
                   <CardHeader>
-                    <CardTitle>{category.title}</CardTitle>
-                    <CardDescription>{category.description}</CardDescription>
+                    <CardTitle className="dark:text-white">{category.title}</CardTitle>
+                    <CardDescription className="dark:text-slate-400">{category.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <Accordion type="single" collapsible className="w-full">
                       <AnimatePresence>
                         {category.rights.map((right, index) => (
                           <AccordionItem key={right.id} value={right.id}>
-                            <AccordionTrigger className="text-left">{right.title}</AccordionTrigger>
+                            <AccordionTrigger className="text-left dark:text-white">{right.title}</AccordionTrigger>
                             <motion.div
                               initial={{ opacity: 0 }}
                               animate={{ opacity: 1 }}
@@ -285,7 +285,7 @@ export default function RightsPage() {
                             >
                               <AccordionContent>
                                 <div className="space-y-4">
-                                  <p className="text-slate-700">{right.content}</p>
+                                  <p className="text-slate-700 dark:text-slate-300">{right.content}</p>
                                   <div className="flex space-x-2">
                                     <Button variant="outline" size="sm" onClick={() => handleCopy(right.content)}>
                                       <Copy className="h-3.5 w-3.5 mr-1.5" />
@@ -314,7 +314,7 @@ export default function RightsPage() {
           ))}
         </Tabs>
 
-        <div className="mt-8 bg-slate-50 dark:bg-gray-900 rounded-2xl p-6">
+        <div className="mt-8 bg-slate-50 dark:bg-slate-800 rounded-2xl p-6">
           <h2 className="text-xl font-semibold text-navy-900 dark:text-white mb-4">
             Understanding Your Rights
           </h2>
