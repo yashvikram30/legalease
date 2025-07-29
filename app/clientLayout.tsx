@@ -5,7 +5,7 @@ import type React from "react"
 import { Inter } from "next/font/google"
 import { motion, AnimatePresence } from "framer-motion"
 
-import { ThemeProvider } from "@/components/theme-provider"
+import ThemeProvider  from "@/components/theme-provider"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import {Toaster} from "react-hot-toast"
@@ -24,7 +24,7 @@ export default function ClientLayout({
     <html lang="en" suppressHydrationWarning>
       <AuthProvider>
       <body className={`${inter.className} min-h-screen bg-background`}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
+        <ThemeProvider>
           <div className="flex min-h-screen flex-col">
             <Navbar />
             <main className="flex-1">
