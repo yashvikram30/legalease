@@ -1,0 +1,65 @@
+⚖️ Add Legal Advisors Section (x6)
+
+ ✨ Summary
+This PR introduces a dedicated section listing **6 legal advisors** with full name, specialization, contact information, and professional details. This improves legal transparency and trust for users and partners.
+ 👥 Added Legal Advisors
+1. **Adv. Priya Sharma** – Cyber Law & Data Privacy  
+2. **Adv. Ramesh Iyer** – Corporate & Compliance Law  
+3. **Adv. Neha Jain** – IP & Technology Law  
+4. **Adv. Arvind Mehta** – International Trade & Arbitration  
+5. **Adv. Sneha Kulkarni** – Taxation & Business Law  
+6. **Adv. Tariq Hussain** – Criminal Law & Consumer Protection  
+<div class="max-w-6xl mx-auto mt-10 p-6 bg-white rounded-2xl shadow-md">
+  <h2 class="text-2xl font-bold text-gray-800 mb-6">⚖️ Legal Advisors</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
+    <!-- Advisor 1 -->
+    <div class="p-4 border rounded-lg shadow-sm">
+      <h3 class="text-lg font-semibold">Adv. Priya Sharma</h3>
+      <p>Cyber Law, Data Privacy</p>
+      <p>Email: priya@apexlegal.com</p>
+      <p>Phone: +91-98765-43210</p>
+    </div>
+
+    <!-- Advisor 2 -->
+    <div class="p-4 border rounded-lg shadow-sm">
+      <h3 class="text-lg font-semibold">Adv. Ramesh Iyer</h3>
+      <p>Corporate & Compliance Law</p>
+      <p>Email: ramesh.iyer@lexsolutions.in</p>
+      <p>Phone: +91-98201-23456</p>
+    </div>
+
+    <!-- Advisor 3 -->
+    <div class="p-4 border rounded-lg shadow-sm">
+      <h3 class="text-lg font-semibold">Adv. Neha Jain</h3>
+      <p>IP & Technology Law</p>
+      <p>Email: neha@techlegals.in</p>
+      <p>Phone: +91-90123-45678</p>
+    </div>
+
+    <!-- Advisor 4 -->
+    <div class="p-4 border rounded-lg shadow-sm">
+      <h3 class="text-lg font-semibold">Adv. Arvind Mehta</h3>
+      <p>International Trade & Arbitration</p>
+      <p>Email: arvind@globallex.in</p>
+      <p>Phone: +91-99666-77889</p>
+    </div>
+
+    <!-- Advisor 5 -->
+    <div class="p-4 border rounded-lg shadow-sm">
+      <h3 class="text-lg font-semibold">Adv. Sneha Kulkarni</h3>
+      <p>Taxation & Business Law</p>
+      <p>Email: sneha@bizlegal.in</p>
+      <p>Phone: +91-99333-11223</p>
+    </div>
+
+    <!-- Advisor 6 -->
+    <div class="p-4 border rounded-lg shadow-sm">
+      <h3 class="text-lg font-semibold">Adv. Tariq Hussain</h3>
+      <p>Criminal Law & Consumer Protection</p>
+      <p>Email: tariq@lawforce.org</p>
+      <p>Phone: +91-99000-77881</p>
+    </div>
+  </div>
+</div>
+
