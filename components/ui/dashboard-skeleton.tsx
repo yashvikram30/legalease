@@ -1,19 +1,19 @@
 import { Skeleton, SkeletonText, SkeletonCard } from "@/components/ui/skeleton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
-export default function Loading() {
+export function DashboardSkeleton() {
   return (
     <div className="p-6 space-y-6">
-      {/* Header Section */}
+      {/* Welcome Header */}
       <div className="flex items-center justify-between">
         <div className="space-y-2">
-          <Skeleton className="h-8 w-48" />
-          <Skeleton className="h-4 w-64" />
+          <Skeleton className="h-8 w-64" />
+          <Skeleton className="h-4 w-48" />
         </div>
         <Skeleton className="h-10 w-32 rounded-md" />
       </div>
 
-      {/* Stats Cards */}
+      {/* Quick Stats */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {Array.from({ length: 4 }).map((_, index) => (
           <Card key={index}>
@@ -35,7 +35,10 @@ export default function Loading() {
         <div className="lg:col-span-2">
           <Card>
             <CardHeader>
-              <Skeleton className="h-6 w-32" />
+              <div className="flex items-center justify-between">
+                <Skeleton className="h-6 w-32" />
+                <Skeleton className="h-8 w-20 rounded-md" />
+              </div>
             </CardHeader>
             <CardContent className="space-y-4">
               {Array.from({ length: 5 }).map((_, index) => (
@@ -54,10 +57,37 @@ export default function Loading() {
 
         {/* Sidebar */}
         <div className="space-y-6">
-          <SkeletonCard />
+          {/* Quick Actions */}
+          <Card>
+            <CardHeader>
+              <Skeleton className="h-6 w-28" />
+            </CardHeader>
+            <CardContent className="grid gap-2">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <Skeleton key={index} className="h-10 w-full rounded-md" />
+              ))}
+            </CardContent>
+          </Card>
+
+          {/* Upcoming Events */}
           <SkeletonCard />
         </div>
       </div>
     </div>
+  );
+}
+
+export function QuickActionsSkeleton() {
+  return (
+    <Card>
+      <CardHeader>
+        <Skeleton className="h-6 w-28" />
+      </CardHeader>
+      <CardContent className="grid gap-2">
+        {Array.from({ length: 4 }).map((_, index) => (
+          <Skeleton key={index} className="h-10 w-full rounded-md" />
+        ))}
+      </CardContent>
+    </Card>
   );
 }

@@ -1,127 +1,152 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState, useRef, useEffect, useCallback, useMemo } from "react"
-import { AnimatePresence, motion } from "framer-motion"
-import { Send } from "lucide-react"
-import { format } from "date-fns"
-import ReactMarkdown from "react-markdown"
+import type React from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Send } from "lucide-react";
+import { format } from "date-fns";
+import ReactMarkdown from "react-markdown";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Skeleton } from "@/components/ui/skeleton"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { ChatSidebar } from "@/components/chat-sidebar"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { ChatSidebar } from "@/components/chat-sidebar";
+import { ChatbotSkeleton } from "@/components/ui/chat-skeleton";
 
 type Message = {
-  id: string
-  content: string
-  role: "user" | "assistant"
-  timestamp: Date
-}
+  id: string;
+  content: string;
+  role: "user" | "assistant";
+  timestamp: Date;
+};
 
 export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      content: "Hello! I'm your AI legal assistant. How can I help you with your legal questions today?",
+      content:
+        "Hello! I'm your AI legal assistant. How can I help you with your legal questions today?",
       role: "assistant",
       timestamp: new Date(),
     },
-  ])
-  const [input, setInput] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
-  const [selectedModel, setSelectedModel] = useState("llama3-8b-8192")
-  const [showprompts, setShowprompts] = useState(true)
-  const [location, setlocation] = useState("")
-
+  ]);
+  const [input, setInput] = useState("");
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [selectedModel, setSelectedModel] = useState("llama3-8b-8192");
+  const [showprompts, setShowprompts] = useState(true);
+  const [location, setlocation] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [isTyping, setIsTyping] = useState(false);
 
   // Starter prompts
-  const starterPrompts = useMemo(() => [
-    "How is alimony calculated?",
-    "What are my tenant rights?",
-    "Explain copyright law basics",
-    "How does small claims court work?"
-  ], [])
+  const starterPrompts = useMemo(
+    () => [
+      "How is alimony calculated?",
+      "What are my tenant rights?",
+      "Explain copyright law basics",
+      "How does small claims court work?",
+    ],
+    []
+  );
 
   // Scroll to bottom when messages change
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [messages])
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   // Focus input on load
   useEffect(() => {
-    inputRef.current?.focus()
-  }, [])
+    inputRef.current?.focus();
+  }, []);
 
   // Memorize handleSend to prevent unnecessary re-creations
-  const handleSend = useCallback(async (e?: React.FormEvent, customInput?: string) => {
-  e?.preventDefault();
-  const messageContent = customInput || input.trim();
-  if (!messageContent) return;
+  const handleSend = useCallback(
+    async (e?: React.FormEvent, customInput?: string) => {
+      e?.preventDefault();
+      const messageContent = customInput || input.trim();
+      if (!messageContent) return;
 
-  const userMessage: Message = {
-    id: Date.now().toString(),
-    content: messageContent,
-    role: "user",
-    timestamp: new Date(),
-  };
+      const userMessage: Message = {
+        id: Date.now().toString(),
+        content: messageContent,
+        role: "user",
+        timestamp: new Date(),
+      };
 
-    setMessages((prev) => [...prev, userMessage])
-    setInput("")
-    setIsLoading(true)
+      setMessages((prev) => [...prev, userMessage]);
+      setInput("");
+      setIsLoading(true);
 
-    const res = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        messages: [...messages, userMessage].map(({ role, content }) => ({ role, content })),
-        model: selectedModel,
-      }),
-    })
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [...messages, userMessage].map(({ role, content }) => ({
+            role,
+            content,
+          })),
+          model: selectedModel,
+        }),
+      });
 
-    if (!res.ok || !res.body) {
-      setIsLoading(false)
-      return
-    }
+      if (!res.ok || !res.body) {
+        setIsLoading(false);
+        return;
+      }
 
-    const reader = res.body.getReader()
-    const decoder = new TextDecoder("utf-8")
-    let done = false
-    let assistantMessage = {
-      id: (Date.now() + 1).toString(),
-      content: "",
-      role: "assistant" as const,
-      timestamp: new Date(),
-    }
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+      let done = false;
+      let assistantMessage = {
+        id: (Date.now() + 1).toString(),
+        content: "",
+        role: "assistant" as const,
+        timestamp: new Date(),
+      };
 
-    setMessages((prev) => [...prev, assistantMessage])
+      setMessages((prev) => [...prev, assistantMessage]);
 
-    while (!done) {
-      const { value, done: doneReading } = await reader.read()
-      done = doneReading
-      const chunkValue = decoder.decode(value)
-      assistantMessage.content += chunkValue
+      while (!done) {
+        const { value, done: doneReading } = await reader.read();
+        done = doneReading;
+        const chunkValue = decoder.decode(value);
+        assistantMessage.content += chunkValue;
 
-      setMessages((prev) =>
-        prev.map((m) =>
-          m.id === assistantMessage.id ? { ...m, content: assistantMessage.content } : m
-        )
-      )
-    }
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === assistantMessage.id
+              ? { ...m, content: assistantMessage.content }
+              : m
+          )
+        );
+      }
 
-     setIsLoading(false)
-    }, [input, messages, selectedModel])
-
+      setIsLoading(false);
+    },
+    [input, messages, selectedModel]
+  );
 
   // Memorize model options to prevent unnecessary re-rendering
-  const modelOptions = useMemo(() => [
-    { value: "llama3-8b-8192", label: "LLaMA 3 8B (Fast)" },
-    { value: "llama3-70b-8192", label: "LLaMA 3 70B (Powerful)" },
-    { value: "llama3-70b-4096", label: "LLaMA 3 70B (4096 ctx)" },
-  ], [])
+  const modelOptions = useMemo(
+    () => [
+      { value: "llama3-8b-8192", label: "LLaMA 3 8B (Fast)" },
+      { value: "llama3-70b-8192", label: "LLaMA 3 70B (Powerful)" },
+      { value: "llama3-70b-4096", label: "LLaMA 3 70B (4096 ctx)" },
+    ],
+    []
+  );
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }, []);
+
+  if (isLoading) {
+    return <ChatbotSkeleton />;
+  }
 
   return (
     <div className="flex h-[calc(100vh-4rem)] overflow-hidden">
@@ -141,13 +166,16 @@ export default function ChatPage() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
+                    className={`flex ${
+                      message.role === "user" ? "justify-end" : "justify-start"
+                    }`}
                   >
                     <div
-                      className={`max-w-[80%] rounded-2xl px-4 py-3 ${message.role === "user"
-                        ? "bg-teal-600 text-white dark:bg-teal-700"
-                        : "bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-100"
-                        }`}
+                      className={`max-w-[80%] rounded-2xl px-4 py-3 ${
+                        message.role === "user"
+                          ? "bg-teal-600 text-white dark:bg-teal-700"
+                          : "bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-100"
+                      }`}
                     >
                       {message.role === "assistant" ? (
                         <div className="prose prose-slate dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 max-w-none">
@@ -157,8 +185,11 @@ export default function ChatPage() {
                         <p>{message.content}</p>
                       )}
                       <div
-                        className={`text-xs mt-1 ${message.role === "user" ? "text-teal-100" : "text-slate-500 dark:text-slate-400"
-                          }`}
+                        className={`text-xs mt-1 ${
+                          message.role === "user"
+                            ? "text-teal-100"
+                            : "text-slate-500 dark:text-slate-400"
+                        }`}
                       >
                         {format(message.timestamp, "h:mm a")}
                       </div>
@@ -188,48 +219,47 @@ export default function ChatPage() {
         </div>
 
         <div className="border-t bg-white dark:bg-slate-900 dark:border-slate-700 p-4">
-         
-         {/* Prompt Toggle & Location Picker */}
+          {/* Prompt Toggle & Location Picker */}
 
-         <div className="max-w-3xl mx-auto mb-3 space-y-2">
-          
-         <div className="flex items-center justify-between"> 
-          <button 
-              onClick={() => setShowprompts(!showprompts)}
-              className="text-xs text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 mb-2"
+          <div className="max-w-3xl mx-auto mb-3 space-y-2">
+            <div className="flex items-center justify-between">
+              <button
+                onClick={() => setShowprompts(!showprompts)}
+                className="text-xs text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 mb-2"
               >
-              {showprompts ? '▼ Hide prompts' : '▲ Show prompts'}
-          </button>
-          
-          <input
-           type="text"
-           value={location}
-           onChange={(e) => setlocation(e.target.value)}
-           placeholder="Add location (e.g., California, UK)"
-           className="text-xs p-1.5 border border-gray-500 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0 rounded-md bg-transparent w-1/3"
-          />
+                {showprompts ? "▼ Hide prompts" : "▲ Show prompts"}
+              </button>
+
+              <input
+                type="text"
+                value={location}
+                onChange={(e) => setlocation(e.target.value)}
+                placeholder="Add location (e.g., California, UK)"
+                className="text-xs p-1.5 border border-gray-500 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0 rounded-md bg-transparent w-1/3"
+              />
+            </div>
+
+            {showprompts && (
+              <div className="grid grid-cols-2 gap-2">
+                {starterPrompts.map((prompt) => (
+                  <button
+                    key={prompt}
+                    onClick={() => {
+                      const finalInput = location
+                        ? `In ${location} , ${prompt} `
+                        : prompt;
+                      setInput(finalInput);
+                      setShowprompts(false);
+                      handleSend(undefined, finalInput);
+                    }}
+                    className="text-left p-2 text-sm rounded border hover:bg-slate-50 dark:hover:bg-slate-800 truncate"
+                  >
+                    {prompt}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
-
-        {showprompts && (
-         <div className="grid grid-cols-2 gap-2">
-          {starterPrompts.map((prompt) => (
-           <button
-             key={prompt}
-             onClick={() => {
-             const finalInput = location ? `In ${location} , ${prompt} ` : prompt;
-             setInput(finalInput);
-             setShowprompts(false);
-             handleSend(undefined, finalInput);
-          }}
-          className="text-left p-2 text-sm rounded border hover:bg-slate-50 dark:hover:bg-slate-800 truncate"
-          >
-          {prompt}
-        </button>
-        ))}
-        </div>
-        )}
-
-         </div>
 
           <div className="max-w-3xl mx-auto mb-2">
             <select
@@ -266,11 +296,12 @@ export default function ChatPage() {
             </Button>
           </form>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 text-center max-w-3xl mx-auto">
-            This AI assistant provides general legal information, not specific legal advice. For personalized advice,
-            please consult a qualified legal professional.
+            This AI assistant provides general legal information, not specific
+            legal advice. For personalized advice, please consult a qualified
+            legal professional.
           </p>
         </div>
       </div>
     </div>
-  )
+  );
 }
