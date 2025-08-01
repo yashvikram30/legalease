@@ -1,36 +1,50 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Copy, Share2 } from "lucide-react"
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Copy, Share2 } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { toast } from "@/components/ui/use-toast"
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { toast } from "@/components/ui/use-toast";
+import { RightsVisualizerSkeleton } from "@/components/ui/rights-skeleton";
 
 type RightCategory = {
-  id: string
-  title: string
-  description: string
-  rights: Right[]
-}
+  id: string;
+  title: string;
+  description: string;
+  rights: Right[];
+};
 
 type Right = {
-  id: string
-  title: string
-  content: string
-}
+  id: string;
+  title: string;
+  content: string;
+};
 
 export default function RightsPage() {
-  const [selectedCategory, setSelectedCategory] = useState<string>("arrest")
+  const [selectedCategory, setSelectedCategory] = useState<string>("arrest");
+  const [isLoading, setIsLoading] = useState(true);
 
   const categories: RightCategory[] = [
     {
       id: "arrest",
       title: "Arrest Rights",
-      description: "Your rights when interacting with law enforcement or during arrest",
+      description:
+        "Your rights when interacting with law enforcement or during arrest",
       rights: [
         {
           id: "arrest-1",
@@ -67,7 +81,8 @@ export default function RightsPage() {
     {
       id: "property",
       title: "Property Rights",
-      description: "Rights related to property ownership, transfer, and disputes",
+      description:
+        "Rights related to property ownership, transfer, and disputes",
       rights: [
         {
           id: "property-1",
@@ -104,7 +119,8 @@ export default function RightsPage() {
     {
       id: "consumer",
       title: "Consumer Rights",
-      description: "Your rights as a consumer when purchasing goods and services",
+      description:
+        "Your rights as a consumer when purchasing goods and services",
       rights: [
         {
           id: "consumer-1",
@@ -212,15 +228,15 @@ export default function RightsPage() {
         },
       ],
     },
-  ]
+  ];
 
   const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text)
+    navigator.clipboard.writeText(text);
     toast({
       title: "Copied to clipboard",
       description: "The legal information has been copied to your clipboard.",
-    })
-  }
+    });
+  };
 
   const handleShare = (text: string) => {
     if (navigator.share) {
@@ -230,29 +246,51 @@ export default function RightsPage() {
           text: text,
           url: window.location.href,
         })
-        .catch((error) => console.log("Error sharing", error))
+        .catch((error) => console.log("Error sharing", error));
     } else {
-      handleCopy(text)
+      handleCopy(text);
       toast({
         title: "Sharing not supported",
         description:
           "Your browser doesn't support direct sharing, but we've copied the text to your clipboard instead.",
-      })
+      });
     }
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }, []);
+
+  if (isLoading) {
+    return <RightsVisualizerSkeleton />;
   }
 
   return (
     <div className="container mx-auto p-4 md:p-6">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-navy-900">Legal Rights Visualizer</h1>
-          <p className="text-slate-600 mt-2">Explore your legal rights in simple, easy-to-understand language</p>
+          <h1 className="text-3xl font-bold text-navy-900">
+            Legal Rights Visualizer
+          </h1>
+          <p className="text-slate-600 mt-2">
+            Explore your legal rights in simple, easy-to-understand language
+          </p>
         </div>
 
-        <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="w-full">
+        <Tabs
+          value={selectedCategory}
+          onValueChange={setSelectedCategory}
+          className="w-full"
+        >
           <TabsList className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 mb-8">
             {categories.map((category) => (
-              <TabsTrigger key={category.id} value={category.id} className="text-xs md:text-sm">
+              <TabsTrigger
+                key={category.id}
+                value={category.id}
+                className="text-xs md:text-sm"
+              >
                 {category.title}
               </TabsTrigger>
             ))}
@@ -276,7 +314,9 @@ export default function RightsPage() {
                       <AnimatePresence>
                         {category.rights.map((right, index) => (
                           <AccordionItem key={right.id} value={right.id}>
-                            <AccordionTrigger className="text-left">{right.title}</AccordionTrigger>
+                            <AccordionTrigger className="text-left">
+                              {right.title}
+                            </AccordionTrigger>
                             <motion.div
                               initial={{ opacity: 0 }}
                               animate={{ opacity: 1 }}
@@ -285,16 +325,26 @@ export default function RightsPage() {
                             >
                               <AccordionContent>
                                 <div className="space-y-4">
-                                  <p className="text-slate-700">{right.content}</p>
+                                  <p className="text-slate-700">
+                                    {right.content}
+                                  </p>
                                   <div className="flex space-x-2">
-                                    <Button variant="outline" size="sm" onClick={() => handleCopy(right.content)}>
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => handleCopy(right.content)}
+                                    >
                                       <Copy className="h-3.5 w-3.5 mr-1.5" />
                                       Copy
                                     </Button>
                                     <Button
                                       variant="outline"
                                       size="sm"
-                                      onClick={() => handleShare(`${right.title}: ${right.content}`)}
+                                      onClick={() =>
+                                        handleShare(
+                                          `${right.title}: ${right.content}`
+                                        )
+                                      }
                                     >
                                       <Share2 className="h-3.5 w-3.5 mr-1.5" />
                                       Share
@@ -319,21 +369,27 @@ export default function RightsPage() {
             Understanding Your Rights
           </h2>
           <p className="text-slate-700 dark:text-slate-300 mb-4">
-            Knowing your legal rights is the first step toward accessing justice. The information provided here is
-            simplified for better understanding but is based on actual Indian laws and legal provisions.
+            Knowing your legal rights is the first step toward accessing
+            justice. The information provided here is simplified for better
+            understanding but is based on actual Indian laws and legal
+            provisions.
           </p>
           <p className="text-slate-700 dark:text-slate-300 mb-4">
-            Remember that laws can change, and specific circumstances may affect how these rights apply to your
-            situation. When facing a legal issue, it's always advisable to consult with a qualified legal professional.
+            Remember that laws can change, and specific circumstances may affect
+            how these rights apply to your situation. When facing a legal issue,
+            it's always advisable to consult with a qualified legal
+            professional.
           </p>
           <div className="flex justify-center mt-6">
-            <Button asChild className="bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600">
+            <Button
+              asChild
+              className="bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600"
+            >
               <a href="/help">Find Legal Help</a>
             </Button>
           </div>
         </div>
-
       </div>
     </div>
-  )
+  );
 }
