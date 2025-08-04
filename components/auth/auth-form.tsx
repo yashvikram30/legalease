@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from "react"
-import { useRouter } from "next/navigation"
+import { redirect, useRouter } from "next/navigation"
 import { signIn } from "next-auth/react"
 import axios, { AxiosError } from "axios"
 import toast from "react-hot-toast"
@@ -32,29 +32,31 @@ export function AuthForm() {
     setError(null)
     setIsLoading(true)
 
-    const result = await signIn('credentials', {
-      redirect: false,
-      identifier: emailOrUsername,
-      password,
-    })
+    try {
+      const result = await signIn('credentials', {
+        redirect: false,
+        identifier: emailOrUsername,
+        password,
+        callbackUrl: `/dashboard`, // Correct placement
+      })
 
-   if(result?.error){
-            if(result.error === 'CredentialsSignin'){
-              toast('Invalid credentials. Please try again.', {
-                icon: '❌',
-              });
-            } else {
-              toast('An unexpected error occurred. Please try again later.', {
-                icon: '❌',
-              });
-            }
-          }
+      if (result?.error) {
+        if (result.error === 'CredentialsSignin') {
+          toast('Invalid credentials. Please try again.', { icon: '❌' })
+        } else {
+          toast('An unexpected error occurred. Please try again later.', { icon: '❌' })
+        }
+      }
 
-    if (result?.url) {
-      router.replace("/dashboard")
+      if (!result?.error && result?.url) {
+        router.replace(result.url)
+      }
+    } catch (err) {
+      console.error("SignIn error:", err) // <-- this will help you debug
+      toast('There was a problem with your sign-in. Please try again.')
+    } finally {
+      setIsLoading(false)
     }
-
-    setIsLoading(false)
   }
 
   const handleSignUp = async (e: React.FormEvent) => {
@@ -68,14 +70,16 @@ export function AuthForm() {
         email,
         password,
       })
-      toast(response.data.message)
-      console.log(response.data.message)
+      toast.success(response.data.message)
+      // console.log(response.data.message)
 
       // Redirect directly to dashboard instead of verify page
       router.replace("/dashboard")
+      setActiveTab("signin")
+
     } catch (err) {
       const axiosError = err as AxiosError<ApiResponse>
-       const errorMessage = axiosError.response?.data.message;
+      const errorMessage = axiosError.response?.data.message;
       toast(errorMessage ?? 'There was a problem with your sign-up. Please try again.');
     } finally {
       setIsLoading(false)
@@ -96,7 +100,9 @@ export function AuthForm() {
           </TabsList>
 
           <TabsContent value="signin">
-            <form onSubmit={handleSignIn} className="space-y-4">
+            <form onSubmit={async (e) => {
+              await handleSignIn(e);
+            }} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="emailOrUsername">Email or Username</Label>
                 <Input
@@ -130,6 +136,17 @@ export function AuthForm() {
                 </div>
               </div>
 
+              <div className="text-right">
+                <button
+                  type="button"
+                  className="text-xs text-teal-600 hover:underline"
+                  onClick={() => router.push("/forgot-password")}
+                >
+                  Forgot Password?
+                </button>
+              </div>
+
+
               {error && <Alert variant="destructive"><AlertDescription>{error}</AlertDescription></Alert>}
 
               <Button
@@ -147,23 +164,25 @@ export function AuthForm() {
                 )}
               </Button>
 
-               <div className="flex items-center justify-center">
+              <div className="flex items-center justify-center">
                 <span className="text-xs text-gray-400">or continue with</span>
               </div>
-               <Button
-        variant="outline"
-        className="w-full h-12 flex items-center justify-center gap-3 rounded-xl border-2 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 hover-lift animate-fade-in-up"
-        onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
-        style={{ animationDelay: '0.5s' }}
-      >
-        <Image src="/google.svg"  alt="Google" width={20} height={20} />
-        Continue with Google
-      </Button>
+              <Button
+                variant="outline"
+                className="w-full h-12 flex items-center justify-center gap-3 rounded-xl border-2 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 hover-lift animate-fade-in-up"
+                onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
+                style={{ animationDelay: '0.5s' }}
+              >
+                <Image src="/google.svg" alt="Google" width={20} height={20} />
+                Continue with Google
+              </Button>
             </form>
           </TabsContent>
 
           <TabsContent value="signup">
-            <form onSubmit={handleSignUp} className="space-y-4">
+            <form onSubmit={async (e) => {
+              await handleSignUp(e);
+            }} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="signup-username">Username</Label>
                 <Input
