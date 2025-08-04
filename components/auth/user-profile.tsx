@@ -42,15 +42,15 @@ export function UserProfile() {
   }
 
   const { email, image } = session.user
-  const initials = email ? email.substring(0, 2).toUpperCase() : 'U'
+  const initials = email ? email.substring(0, 1).toUpperCase() : 'U'
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="sm" className="flex items-center gap-2">
-          <Avatar className="h-6 w-6">
-            <AvatarImage src={image || '/placeholder.svg'} alt={email || ''} />
-            <AvatarFallback>{initials}</AvatarFallback>
+          <Avatar className="h-6 w-6 bg-teal-600">
+            <AvatarImage src={image!} alt={email || ''} />
+            <AvatarFallback className='bg-teal-600 text-white'>{initials}</AvatarFallback>
           </Avatar>
           <span className="text-sm hidden md:inline-block">{email}</span>
         </Button>
