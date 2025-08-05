@@ -48,9 +48,14 @@ export function AuthForm() {
         }
       }
 
-      if (!result?.error && result?.url) {
-        router.replace(result.url)
+      // if (!result?.error && result?.url) {
+      //   router.replace(result.url)
+      // }
+
+      if (!result?.error) {
+        router.push('/dashboard') // more predictable
       }
+
     } catch (err) {
       console.error("SignIn error:", err) // <-- this will help you debug
       toast('There was a problem with your sign-in. Please try again.')
