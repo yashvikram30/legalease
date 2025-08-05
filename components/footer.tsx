@@ -96,7 +96,7 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="#"
+                  href="/resources/legal-guidance"
                   className="text-sm text-slate-600 hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-400"
                 >
                   Legal Guides
@@ -104,7 +104,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/resources/document-templete"
                   className="text-sm text-slate-600 hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-400"
                 >
                   Document Templates
@@ -112,7 +112,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/resources/faq"
                   className="text-sm text-slate-600 hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-400"
                 >
                   FAQs
@@ -120,7 +120,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/resources/blog"
                   className="text-sm text-slate-600 hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-400"
                 >
                   Blog
@@ -134,7 +134,7 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="#"
+                  href="/company/about"
                   className="text-sm text-slate-600 hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-400"
                 >
                   About Us
@@ -142,7 +142,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/company/contact"
                   className="text-sm text-slate-600 hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-400"
                 >
                   Contact
@@ -150,7 +150,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/company/privacy-policy"
                   className="text-sm text-slate-600 hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-400"
                 >
                   Privacy Policy
@@ -158,7 +158,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/company/terms"
                   className="text-sm text-slate-600 hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-400"
                 >
                   Terms of Service
