@@ -253,11 +253,31 @@ export function AuthForm() {
           </TabsContent>
         </Tabs>
       </CardContent>
-      <CardFooter className="text-xs text-center text-slate-500">
+      {/* <CardFooter className="text-xs text-center text-slate-500">
         By continuing, you agree to our{" "}
         <a href="#" className="text-teal-600 hover:underline">Terms of Service</a> and{" "}
         <a href="#" className="text-teal-600 hover:underline">Privacy Policy</a>.
+      </CardFooter> */}
+      
+      <CardFooter className="mt-6 text-sm text-center text-slate-500">
+        <p>
+          By continuing, you agree to our&nbsp;
+          <a
+            href="#"
+            className="text-teal-600 hover:text-teal-700 hover:underline transition-colors duration-200 font-medium"
+          >
+            Terms of Service
+          </a>
+          &nbsp;and&nbsp;
+          <a
+            href="#"
+            className="text-teal-600 hover:text-teal-700 hover:underline transition-colors duration-200 font-medium"
+          >
+            Privacy Policy
+          </a>.
+        </p>
       </CardFooter>
+
     </Card>
   )
 }
