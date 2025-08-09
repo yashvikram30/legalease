@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 
 type ConnectionObject = {
-    isConnected?: number
+  isConnected?: number
 };
 
 const connection: ConnectionObject = {};
@@ -15,7 +15,7 @@ async function dbConnect(): Promise<void> {
   }
 
   try {
-  
+
     const db = await mongoose.connect(process.env.MONGO_URL || '', {});
 
     connection.isConnected = db.connections[0].readyState;
@@ -24,7 +24,7 @@ async function dbConnect(): Promise<void> {
   } catch (error) {
     console.error('Database connection failed:', error);
 
-    process.exit(1);
+    throw error;
   }
 }
 
