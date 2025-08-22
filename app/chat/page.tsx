@@ -40,7 +40,6 @@ export default function ChatPage() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [selectedModel, setSelectedModel] = useState("llama3-8b-8192");
-  const [selectedModelName, setSelectedModelName] = useState("LLaMA 3 8B (Fast)");
   const [showprompts, setShowprompts] = useState(true);
   const [location, setlocation] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -144,6 +143,13 @@ export default function ChatPage() {
     []
   );
 
+  const selectedModelLabel = useMemo(
+  () =>
+    modelOptions.find((m) => m.value === selectedModel)?.label ??
+    "LLaMA 3 8B (Fast)",
+  [modelOptions, selectedModel]
+);
+
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
@@ -165,22 +171,20 @@ export default function ChatPage() {
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
-          className="fixed z-50 flex items-center justify-content-between gap-2 focus:outline-none focus:ring-0 text-black mt-1 ml-4 w-52"
+          aria-label="Select model"
+          className="fixed top-20 left-4 z-50 flex items-center justify-between gap-2 focus-visible:ring-2 focus-visible:ring-ring dark:text-slate-100 w-52"
         >
-          <span className="">{selectedModelName}</span>
+          <span className="">{selectedModelLabel}</span>
           <ChevronDown className="h-4 w-4 opacity-70" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-72 p-2  text-black rounded-xl shadow-lg ml-4">
+      <DropdownMenuContent align="end" className="w-72 p-2 rounded-xl shadow-lg dark:text-slate-100">
         <p className="px-2 pb-2 text-sm text-slate-400">Choose your model</p>
         {modelOptions.map((option) => (
           <DropdownMenuItem
             key={option.value}
-            onClick={() => {
-              setSelectedModel(option.value);
-              setSelectedModelName(option.label);
-              }
-            }
+            onClick={() => setSelectedModel(option.value)}
+            aria-checked={selectedModel === option.value}
             className="flex justify-between items-start py-2 px-2 rounded-lg cursor-pointer"
           >
             <div>
@@ -200,7 +204,7 @@ export default function ChatPage() {
 
 
         <div className="flex-1 overflow-hidden">
-          <ScrollArea className="h-full p-8 mt-6 sm:p-8 sm:mt-6 md:p-8 md:mt-6 lg:p-6 lg:mt-0">
+          <ScrollArea className="h-full p-8 pt-16">
             <div className="w-full max-w-2xl mx-auto space-y-4 pb-20">
               <AnimatePresence initial={false}>
                 {messages.map((message) => (
