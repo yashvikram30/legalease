@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "patch-package" 
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",
@@ -64,6 +65,7 @@
     "next-themes": "latest",
     "nodemailer": "^6.10.1",
     "openai": "^4.93.0",
+    "patch-package": "^8.0.0",
     "pdf-parse": "^1.1.1",
     "pdfjs-dist": "^2.16.105",
     "react": "^18.3.1",
