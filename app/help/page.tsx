@@ -363,13 +363,13 @@ export default function HelpPage() {
         </div>
 
         {/* Additional Information */}
-        <div className="mt-12 bg-slate-900 rounded-2xl p-6 shadow-2xl shadow-slate-500/20">
-          <h2 className="text-xl font-semibold text-white mb-4">Need Immediate Legal Assistance?</h2>
-          <p className="text-white mb-4">
+        <div className="mt-12 bg-slate-50 dark:bg-slate-900 rounded-2xl p-6 dark:shadow-2xl dark:shadow-slate-500/20">
+          <h2 className="text-xl font-semibold text-navy-900 dark:text-white mb-4">Need Immediate Legal Assistance?</h2>
+          <p className="text-slate-700 dark:text-white mb-4">
             If you're facing an emergency legal situation, you can contact the National Legal Services Authority (NALSA)
             helpline at <span className="font-medium">1516</span> for free legal aid and advice.
           </p>
-          <p className="text-white">
+          <p className="text-slate-700 dark:text-white">
             For women in distress, the Women Helpline number is <span className="font-medium">1091</span> or{" "}
             <span className="font-medium">181</span>.
           </p>
