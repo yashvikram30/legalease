@@ -63,30 +63,30 @@ export const authOptions: NextAuthOptions = {
     })
   ],
   callbacks: {
-async jwt({ token, user, account }) {
-  if (account?.provider === 'google') {
-    await dbConnect();
+    async jwt({ token, user, account }) {
+      if (account?.provider === 'google') {
+        await dbConnect();
 
-    let dbUser = await UserModel.findOne({ email: user.email });
+        let dbUser = await UserModel.findOne({ email: user.email });
 
-    if (!dbUser) {
-      dbUser = await UserModel.create({
-        email: user?.email,
-        username: user?.name || (user.email ? user.email.split('@')[0] : ''),
-        password: 'GOOGLE_OAUTH',
-      });
-    }
+        if (!dbUser) {
+          dbUser = await UserModel.create({
+            email: user?.email,
+            username: user?.name || (user.email ? user.email.split('@')[0] : ''),
+            password: 'GOOGLE_OAUTH',
+          });
+        }
 
-    token._id = (dbUser._id as { toString: () => string }).toString();
-    token.username = dbUser.username;
-  } else if (user) {
-    const customUser = user as CustomUser;
-    token._id = customUser._id?.toString?.();
-    token.username = customUser.username;
-  }
+        token._id = (dbUser._id as { toString: () => string }).toString();
+        token.username = dbUser.username;
+      } else if (user) {
+        const customUser = user as CustomUser;
+        token._id = customUser._id?.toString?.();
+        token.username = customUser.username;
+      }
 
-  return token;
-},
+      return token;
+    },
 
     async session({ session, token }) {
       if (token) {
@@ -95,6 +95,11 @@ async jwt({ token, user, account }) {
       }
       return session;
     },
+    redirect({ url, baseUrl }) {
+      // Always redirect to dashboard after login
+       return `${baseUrl}/dashboard`
+    }
+
   },
   session: {
     strategy: 'jwt',
@@ -103,4 +108,5 @@ async jwt({ token, user, account }) {
   pages: {
     signIn: '/sign-in',
   },
+
 };

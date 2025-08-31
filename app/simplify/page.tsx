@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FileText, Upload, X, Copy, Download, Check } from "lucide-react";
 
@@ -18,26 +18,30 @@ import { toast } from "@/components/ui/use-toast";
 import { Progress } from "@/components/ui/progress";
 
 import { simplifyTextLocally } from "@/lib/simplify";
+import {
+  DocumentSimplifierSkeleton,
+  DocumentUploadSkeleton,
+} from "@/components/ui/doc-skeleton";
 
 // Updated to use API route instead of client-side PDF.js
 const extractTextFromPDF = async (file: File): Promise<string> => {
   try {
     const formData = new FormData();
-    formData.append('file', file);
-    
-    const response = await fetch('/api/extract-pdf', {
-      method: 'POST',
+    formData.append("file", file);
+
+    const response = await fetch("/api/extract-pdf", {
+      method: "POST",
       body: formData,
     });
-    
+
     if (!response.ok) {
-      throw new Error('Failed to extract text from PDF');
+      throw new Error("Failed to extract text from PDF");
     }
-    
+
     const data = await response.json();
     return data.text;
   } catch (error) {
-    console.error('Error extracting text from PDF:', error);
+    console.error("Error extracting text from PDF:", error);
     throw error;
   }
 };
@@ -45,11 +49,14 @@ const extractTextFromPDF = async (file: File): Promise<string> => {
 export default function SimplifyPage() {
   const [file, setFile] = useState<File | null>(null);
   const [originalContent, setOriginalContent] = useState<string>("");
-  const [simplifiedContent, setSimplifiedContent] = useState<string | null>(null);
+  const [simplifiedContent, setSimplifiedContent] = useState<string | null>(
+    null
+  );
   const [isDragging, setIsDragging] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
   const [activeTab, setActiveTab] = useState<string>("simplified");
+  const [loading, setLoading] = useState(true);
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -111,21 +118,22 @@ export default function SimplifyPage() {
         const text = await extractTextFromPDF(selectedFile);
         setOriginalContent(text);
       } else if (
-        selectedFile.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+        selectedFile.type ===
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
         selectedFile.type === "application/msword"
       ) {
         const formData = new FormData();
         formData.append("file", selectedFile);
-      
+
         const response = await fetch("/api/extract-word", {
           method: "POST",
           body: formData,
         });
-      
+
         if (!response.ok) {
           throw new Error("Failed to extract text from Word document");
         }
-      
+
         const data = await response.json();
         setOriginalContent(data.text);
       } else {
@@ -136,13 +144,13 @@ export default function SimplifyPage() {
         });
         setOriginalContent("");
       }
-      
+
       setProgress(50);
     } catch (error) {
-      toast({ 
-        title: "Error reading file", 
+      toast({
+        title: "Error reading file",
         description: "Failed to extract text from the file.",
-        variant: "destructive" 
+        variant: "destructive",
       });
     } finally {
       setIsProcessing(false);
@@ -159,33 +167,33 @@ export default function SimplifyPage() {
       });
       return;
     }
-  
+
     setIsProcessing(true);
     setProgress(0);
-  
+
     try {
       // Simulate progress
       const progressInterval = setInterval(() => {
-        setProgress(prev => Math.min(prev + 10, 90));
+        setProgress((prev) => Math.min(prev + 10, 90));
       }, 500);
-  
+
       // Debug logging
       console.log("Original content length:", originalContent.length);
       console.log("First 100 characters:", originalContent.substring(0, 100));
-  
+
       const result = await simplifyTextLocally(originalContent);
-      
+
       // Debug logging
       console.log("Simplified content length:", result.length);
       console.log("First 100 characters of result:", result.substring(0, 100));
-  
+
       clearInterval(progressInterval);
       setSimplifiedContent(result);
       setProgress(100);
-      
+
       // Force switch to the simplified tab
       setActiveTab("simplified");
-      
+
       toast({
         title: "Document simplified",
         description: "Your document has been successfully simplified.",
@@ -194,7 +202,8 @@ export default function SimplifyPage() {
       console.error("Simplification error:", error);
       toast({
         title: "Error",
-        description: "Failed to simplify the document. See console for details.",
+        description:
+          "Failed to simplify the document. See console for details.",
         variant: "destructive",
       });
     } finally {
@@ -226,6 +235,16 @@ export default function SimplifyPage() {
     document.body.removeChild(link);
   };
 
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  if (loading) {
+    return <DocumentSimplifierSkeleton />;
+  }
+
   return (
     <div className="container mx-auto p-4 md:p-6">
       <div className="max-w-4xl mx-auto">
@@ -234,7 +253,8 @@ export default function SimplifyPage() {
             Legal Document Simplifier
           </h1>
           <p className="text-slate-600 dark:text-slate-300 mt-2">
-            Upload your legal document and get a simplified, easy-to-understand explanation
+            Upload your legal document and get a simplified, easy-to-understand
+            explanation
           </p>
         </div>
 
@@ -250,7 +270,9 @@ export default function SimplifyPage() {
             <CardContent className="space-y-4">
               <div className="flex items-start gap-3">
                 <div className="bg-teal-100 dark:bg-teal-900 rounded-full p-2 mt-0.5">
-                  <span className="text-teal-600 dark:text-teal-300 font-bold">1</span>
+                  <span className="text-teal-600 dark:text-teal-300 font-bold">
+                    1
+                  </span>
                 </div>
                 <div>
                   <h3 className="font-medium">Upload Your Document</h3>
@@ -261,23 +283,29 @@ export default function SimplifyPage() {
               </div>
               <div className="flex items-start gap-3">
                 <div className="bg-teal-100 dark:bg-teal-900 rounded-full p-2 mt-0.5">
-                  <span className="text-teal-600 dark:text-teal-300 font-bold">2</span>
+                  <span className="text-teal-600 dark:text-teal-300 font-bold">
+                    2
+                  </span>
                 </div>
                 <div>
                   <h3 className="font-medium">AI Processing</h3>
                   <p className="text-sm text-slate-600 dark:text-slate-400">
-                    Our AI analyzes the document and identifies key legal concepts
+                    Our AI analyzes the document and identifies key legal
+                    concepts
                   </p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <div className="bg-teal-100 dark:bg-teal-900 rounded-full p-2 mt-0.5">
-                  <span className="text-teal-600 dark:text-teal-300 font-bold">3</span>
+                  <span className="text-teal-600 dark:text-teal-300 font-bold">
+                    3
+                  </span>
                 </div>
                 <div>
                   <h3 className="font-medium">Get Simplified Explanation</h3>
                   <p className="text-sm text-slate-600 dark:text-slate-400">
-                    Receive a clear, plain-language explanation of your document's content
+                    Receive a clear, plain-language explanation of your
+                    document's content
                   </p>
                 </div>
               </div>
@@ -335,7 +363,9 @@ export default function SimplifyPage() {
                         <FileText className="h-5 w-5 text-slate-700 dark:text-slate-300" />
                       </div>
                       <div className="truncate">
-                        <p className="text-sm font-medium truncate">{file.name}</p>
+                        <p className="text-sm font-medium truncate">
+                          {file.name}
+                        </p>
                         <p className="text-xs text-slate-500 dark:text-slate-400">
                           {(file.size / 1024).toFixed(2)} KB
                         </p>
@@ -385,8 +415,12 @@ export default function SimplifyPage() {
               <CardContent>
                 <Tabs value={activeTab} onValueChange={setActiveTab}>
                   <TabsList className="grid grid-cols-2 mb-4">
-                    <TabsTrigger value="simplified">Simplified Version</TabsTrigger>
-                    <TabsTrigger value="original">Original Document</TabsTrigger>
+                    <TabsTrigger value="simplified">
+                      Simplified Version
+                    </TabsTrigger>
+                    <TabsTrigger value="original">
+                      Original Document
+                    </TabsTrigger>
                   </TabsList>
                   <TabsContent value="simplified">
                     <div className="relative">
@@ -403,7 +437,10 @@ export default function SimplifyPage() {
                           variant="outline"
                           size="sm"
                           onClick={() =>
-                            downloadText(simplifiedContent, "simplified-document.txt")
+                            downloadText(
+                              simplifiedContent,
+                              "simplified-document.txt"
+                            )
                           }
                         >
                           <Download className="h-3.5 w-3.5 mr-1.5" />
@@ -413,9 +450,11 @@ export default function SimplifyPage() {
                       <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4 mt-10">
                         <div className="prose prose-slate dark:prose-invert max-w-none">
                           {simplifiedContent.length > 0 ? (
-                            simplifiedContent.split("\n\n").map((paragraph, index) => (
-                              <p key={index}>{paragraph}</p>
-                            ))
+                            simplifiedContent
+                              .split("\n\n")
+                              .map((paragraph, index) => (
+                                <p key={index}>{paragraph}</p>
+                              ))
                           ) : (
                             <p>No simplified content produced.</p>
                           )}
@@ -438,7 +477,10 @@ export default function SimplifyPage() {
                           variant="outline"
                           size="sm"
                           onClick={() =>
-                            downloadText(originalContent, "original-document.txt")
+                            downloadText(
+                              originalContent,
+                              "original-document.txt"
+                            )
                           }
                         >
                           <Download className="h-3.5 w-3.5 mr-1.5" />
@@ -464,7 +506,8 @@ export default function SimplifyPage() {
                   Document Successfully Simplified
                 </h3>
                 <p className="text-sm text-teal-700 dark:text-teal-400 mt-1">
-                  We've simplified your legal document into plain language. You can now better understand the key terms and implications.
+                  We've simplified your legal document into plain language. You
+                  can now better understand the key terms and implications.
                 </p>
               </div>
             </div>
@@ -478,9 +521,13 @@ export default function SimplifyPage() {
             Need More Help?
           </h2>
           <p className="text-slate-600 dark:text-slate-300">
-            If you need personalized assistance understanding your legal documents, connect with a legal professional.
+            If you need personalized assistance understanding your legal
+            documents, connect with a legal professional.
           </p>
-          <Button asChild className="bg-teal-600 hover:bg-teal-700 dark:bg-teal-700 dark:hover:bg-teal-800">
+          <Button
+            asChild
+            className="bg-teal-600 hover:bg-teal-700 dark:bg-teal-700 dark:hover:bg-teal-800"
+          >
             <a href="/help">Find Legal Help</a>
           </Button>
         </div>
