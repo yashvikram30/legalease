@@ -3,10 +3,15 @@
 import type React from "react";
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Send } from "lucide-react";
+import { Check, ChevronDown, Send } from "lucide-react";
 import { format } from "date-fns";
 import ReactMarkdown from "react-markdown";
-
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -138,6 +143,13 @@ export default function ChatPage() {
     []
   );
 
+  const selectedModelLabel = useMemo(
+  () =>
+    modelOptions.find((m) => m.value === selectedModel)?.label ??
+    "LLaMA 3 8B (Fast)",
+  [modelOptions, selectedModel]
+);
+
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
@@ -154,9 +166,45 @@ export default function ChatPage() {
         <ChatSidebar />
       </div> */}
 
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col ">
+      <DropdownMenu >
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="outline"
+          aria-label="Select model"
+          className="fixed top-20 left-4 z-50 flex items-center justify-between gap-2 focus-visible:ring-2 focus-visible:ring-ring dark:text-slate-100 w-52"
+        >
+          <span className="">{selectedModelLabel}</span>
+          <ChevronDown className="h-4 w-4 opacity-70" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-72 p-2 rounded-xl shadow-lg dark:text-slate-100">
+        <p className="px-2 pb-2 text-sm text-slate-400">Choose your model</p>
+        {modelOptions.map((option) => (
+          <DropdownMenuItem
+            key={option.value}
+            onClick={() => setSelectedModel(option.value)}
+            aria-checked={selectedModel === option.value}
+            className="flex justify-between items-start py-2 px-2 rounded-lg cursor-pointer"
+          >
+            <div>
+              <p className="font-medium">{option.label}</p>
+              
+            </div>
+            {selectedModel === option.value && (
+              <Check className="h-4 w-4 text-teal-400" />
+            )}
+          </DropdownMenuItem>
+        ))}
+        
+      </DropdownMenuContent>
+    </DropdownMenu>
+
+
+
+
         <div className="flex-1 overflow-hidden">
-          <ScrollArea className="h-full p-6 sm:p-8">
+          <ScrollArea className="h-full p-8 pt-16">
             <div className="w-full max-w-2xl mx-auto space-y-4 pb-20">
               <AnimatePresence initial={false}>
                 {messages.map((message) => (
@@ -261,20 +309,6 @@ export default function ChatPage() {
             )}
           </div>
 
-          <div className="max-w-3xl mx-auto mb-2">
-            <select
-              value={selectedModel}
-              onChange={(e) => setSelectedModel(e.target.value)}
-              className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-900 text-sm"
-              disabled={isLoading}
-            >
-              {modelOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </div>
 
           <form onSubmit={handleSend} className="max-w-3xl mx-auto flex gap-2">
             <Input
