@@ -254,9 +254,12 @@ export function AuthForm() {
         </Tabs>
       </CardContent>
       <CardFooter className="text-xs text-center text-slate-500">
-        By continuing, you agree to our{" "}
-        <a href="#" className="text-teal-600 hover:underline">Terms of Service</a> and{" "}
-        <a href="#" className="text-teal-600 hover:underline">Privacy Policy</a>.
+        <span>
+          By continuing, you agree to our{'\u00A0'}
+          <a href="#" className="text-teal-600 hover:underline">Terms of Service</a>
+          {'\u00A0'}and{'\u00A0'}
+          <a href="#" className="text-teal-600 hover:underline">Privacy Policy</a>.
+        </span>
       </CardFooter>
     </Card>
   )
