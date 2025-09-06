@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
+import { SiX, SiFacebook, SiInstagram, SiLinkedin } from "react-icons/si";
 
 export function Footer() {
   return (
@@ -18,28 +18,28 @@ export function Footer() {
                 href="#"
                 className="text-slate-500 hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-400"
               >
-                <Facebook className="h-5 w-5" />
+                <SiFacebook className="h-5 w-5" />
                 <span className="sr-only">Facebook</span>
               </Link>
               <Link
                 href="#"
                 className="text-slate-500 hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-400"
               >
-                <Twitter className="h-5 w-5" />
+                <SiX className="h-5 w-5" />
                 <span className="sr-only">Twitter</span>
               </Link>
               <Link
                 href="#"
                 className="text-slate-500 hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-400"
               >
-                <Instagram className="h-5 w-5" />
+                <SiInstagram className="h-5 w-5" />
                 <span className="sr-only">Instagram</span>
               </Link>
               <Link
                 href="#"
                 className="text-slate-500 hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-400"
               >
-                <Linkedin className="h-5 w-5" />
+                <SiLinkedin className="h-5 w-5" />
                 <span className="sr-only">LinkedIn</span>
               </Link>
             </div>
