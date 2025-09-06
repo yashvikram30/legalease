@@ -26,7 +26,7 @@ export function Footer() {
                 className="text-slate-500 hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-400"
               >
                 <SiX className="h-5 w-5" />
-                <span className="sr-only">Twitter</span>
+                <span className="sr-only">X(formerly Twitter)</span>
               </Link>
               <Link
                 href="#"
